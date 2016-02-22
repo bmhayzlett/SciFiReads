@@ -23,7 +23,7 @@
 
 [new-user]: ./wireframes/SignUpPage.png
 [new-session]: ./wireframes/SignInPage.png
-[books]: ./wireframes/BooksIndexPage.png
+[books]: ./wireframes/BooksIndexPage(Home).png
 [bookshelf]: ./wireframes/BookshelvesIndexPage(MyBooks).png
 [book]: ./wireframes/BookDetailPage.png
 [friends]: ./wireframes/FriendsIndexPage.png
