@@ -5,8 +5,8 @@
   * `Books Index`
   * `Current Books`
   * `Selected Book`
-    * `Comments`
-      * `Likes`
+    * `Reviews`
+      * `Review Likes`
   * `Bookshelves`
   * `Friend Index`
   * `Friend Details`

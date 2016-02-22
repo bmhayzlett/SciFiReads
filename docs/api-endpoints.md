@@ -20,10 +20,7 @@
 
 - `GET /api/books`
   - Books index/search
-- `POST /api/books`
 - `GET /api/books/:id`
-- `PATCH /api/books/:id`
-- `DELETE /api/books/:id`
 
 ### Reviews
 
