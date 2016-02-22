@@ -4,6 +4,7 @@
 
 [heroku]: http://www.herokuapp.com
 
+
 ## Minimum Viable Product
 
 FresherNote is a web application inspired by Evernote built using Ruby on Rails
