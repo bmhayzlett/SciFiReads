@@ -40,7 +40,7 @@ id          | integer   | not null, primary key
 user_id     | integer   | not null, foreign key, indexed, unique[name]
 name        | string    | not null, indexed
 
-## review_likes
+## books_on_shelf
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
