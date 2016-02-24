@@ -8,7 +8,7 @@ var BookStore = new Store(Dispatcher);
 BookStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case BookConstants.BOOKS_RECEIVED:
-      resetBooks(payload.books);
+      resetBooks(payload.books.items);
       BookStore.__emitChange();
       break;
   }

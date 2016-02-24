@@ -115,6 +115,7 @@ Rails and React.js. SciFiReads allows users to:
 - [ ] Pagination / infinite scroll for Books and Users indexes
 - [ ] Allow books index view while logged out + add auth to react/flux
 - [ ] Q/A functionality for page.
+- [ ] Advanced Search functionality
 
 
 [phase-one]: ./docs/phases/phase1.md
