@@ -113,6 +113,7 @@ Rails and React.js. SciFiReads allows users to:
 
 ### Bonus Features (TBD)
 - [ ] Pagination / infinite scroll for Books and Users indexes
+- [ ] Allow books index view while logged out + add auth to react/flux
 - [ ] Q/A functionality for page.
 
 

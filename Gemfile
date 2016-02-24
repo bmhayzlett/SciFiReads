@@ -38,6 +38,7 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'annotate'
   gem 'better_errors'
+  gem 'faker'
 
 end
 

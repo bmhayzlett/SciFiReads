@@ -7,7 +7,8 @@ id          | integer   | not null, primary key
 title       | string    | not null, indexed, unique[author]
 author      | string    | not null, indexed
 image_url   | string    |
-total_stars | float     | not null
+description | text      | not null
+total_stars | integer   | not null
 reviewers   | integer   | not null
 
 ## user_follows
