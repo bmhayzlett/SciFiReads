@@ -47,13 +47,13 @@ Rails and React.js. SciFiReads allows users to:
 
 **Objective:** Users can browse and search for books
 
-- [ ] create `Book` model
-- [ ] seed the database with a small amount of test data
-- [ ] CRUD API for books index ('`BooksController`')
-- [ ] jBuilder views for books index
-- [ ] setup Webpack & Flux scaffold
-- [ ] setup `APIUtil` to interact with the API
-- [ ] test out API interaction in the console.
+- [X] create `Book` model
+- [X] seed the database with a small amount of test data
+- [X] CRUD API for books index ('`BooksController`')
+- [X] jBuilder views for books index
+- [X] setup Webpack & Flux scaffold
+- [X] setup `APIUtil` to interact with the API
+- [X] test out API interaction in the console.
 
 ### Phase 3: Flux Architecture and Router (1.5 days)
 
