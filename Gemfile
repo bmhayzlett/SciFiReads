@@ -26,6 +26,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use ActiveModel has_secure_password
 gem 'bcrypt'
 
+# Use Figaro to hide API keys from users
+gem 'figaro'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
