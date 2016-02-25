@@ -24717,7 +24717,8 @@
 	      'div',
 	      null,
 	      ' HELLO FROM CORE',
-	      React.createElement(NavBar, null)
+	      React.createElement(NavBar, null),
+	      this.props.children
 	    );
 	  }
 	
