@@ -1,6 +1,6 @@
 var React = require('react');
 var BookStore = require('../stores/bookStore');
-var ApiUtil = require('../util/api_util');
+var ApiUtil = require('../util/google_api_util');
 
 var bookIndex = React.createClass({
 
@@ -10,7 +10,7 @@ var bookIndex = React.createClass({
 
   componentDidMount: function () {
     this.bookIndexToken = BookStore.addListener(this._onChange);
-    ApiUtil.fetchBooks();
+    ApiUtil.fetchBooks("");
   },
 
   _onChange: function () {
@@ -20,7 +20,7 @@ var bookIndex = React.createClass({
   render: function () {
 
     var bookList = this.state.books.map(function (book) {
-      return <li><p>{book.title}</p><p>{book.author}</p></li>;
+      return <li><p>{book.volumeInfo.title}</p><p>{book.volumeInfo.authors[0]}</p></li>;
     });
 
     return (

@@ -19687,7 +19687,7 @@
 
 	var React = __webpack_require__(1);
 	var BookStore = __webpack_require__(161);
-	var ApiUtil = __webpack_require__(187);
+	var ApiUtil = __webpack_require__(184);
 	
 	var bookIndex = React.createClass({
 	  displayName: 'bookIndex',
@@ -19699,7 +19699,7 @@
 	
 	  componentDidMount: function () {
 	    this.bookIndexToken = BookStore.addListener(this._onChange);
-	    ApiUtil.fetchBooks();
+	    ApiUtil.fetchBooks("");
 	  },
 	
 	  _onChange: function () {
@@ -19715,12 +19715,12 @@
 	        React.createElement(
 	          'p',
 	          null,
-	          book.title
+	          book.volumeInfo.title
 	        ),
 	        React.createElement(
 	          'p',
 	          null,
-	          book.author
+	          book.volumeInfo.authors[0]
 	        )
 	      );
 	    });
@@ -19756,7 +19756,7 @@
 	BookStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case BookConstants.BOOKS_RECEIVED:
-	      resetBooks(payload.books);
+	      resetBooks(payload.books.items);
 	      BookStore.__emitChange();
 	      break;
 	  }
@@ -26555,7 +26555,31 @@
 	module.exports = BookConstants;
 
 /***/ },
-/* 184 */,
+/* 184 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ApiActions = __webpack_require__(185);
+	
+	ApiUtil = {
+	
+	  fetchBooks: function (searchItems) {
+	    $.ajax({
+	      url: 'https://www.googleapis.com/books/v1/volumes?' + 'q=subject:"Fiction+Science+Fiction"' + searchItems + '&fields=items(id,volumeInfo(title,authors,description,imageLinks))' + '&key=' + window.keys,
+	      type: 'GET',
+	      success: function (books) {
+	        console.log(books);
+	        ApiActions.receiveAll(books);
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = ApiUtil;
+	
+	window.ApiUtil = ApiUtil;
+
+/***/ },
 /* 185 */
 /***/ function(module, exports, __webpack_require__) {
 

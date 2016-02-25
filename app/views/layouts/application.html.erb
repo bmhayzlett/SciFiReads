@@ -8,6 +8,9 @@
 </head>
 <body>
 
+<script>
+  window.keys="<%= ENV["g"] %>"
+</script>
 
 <% if signed_in? %>
   <%= current_user.username %>
