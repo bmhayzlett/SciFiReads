@@ -1,9 +1,24 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+
+var Router = require('react-router').Router;
+var Route = require('react-router').Route;
+var IndexRoute = require('react-router').IndexRoute;
+
 var Core = require('./components/core');
 var ApiUtil = require('./util/api_util')
-var BookStore = require('./stores/bookStore')
+var BookStore = require('./stores/bookStore');
+var BookIndex = require('./components/bookIndex');
+
+var EntryRouter = (
+  <Router>
+    <Route path="/" component={Core}>
+      <IndexRoute component={BookIndex} />
+    </Route>
+  </Router>
+)
 
 document.addEventListener('DOMContentLoaded', function () {
-  ReactDOM.render(<Core/>, document.getElementById('content'));
-})
+  ReactDOM.render(<Router>{EntryRouter}</Router>,
+    document.getElementById('content'));
+});

@@ -20,11 +20,16 @@ var bookIndex = React.createClass({
   render: function () {
 
     var bookList = this.state.books.map(function (book) {
-      return <li><p>{book.volumeInfo.title}</p><p>{book.volumeInfo.authors[0]}</p></li>;
+      // <BookListItem key={book.id} book={book}/>
+      return  <li>
+        <p>{book.volumeInfo.title}</p>
+        <p>{book.volumeInfo.authors[0]}</p>
+      </li>;
     });
 
     return (
       <div>
+        HELLO FROM bookIndex!
         <ul>
           {bookList}
         </ul>
