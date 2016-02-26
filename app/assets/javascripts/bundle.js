@@ -53,10 +53,10 @@
 	var Link = __webpack_require__(159).Link;
 	
 	var Core = __webpack_require__(216);
-	var ApiUtil = __webpack_require__(244);
+	var ApiUtil = __webpack_require__(245);
 	var BookStore = __webpack_require__(218);
 	var BookIndex = __webpack_require__(217);
-	var Book = __webpack_require__(245);
+	var Book = __webpack_require__(246);
 	
 	var EntryRouter = React.createElement(
 	  Route,
@@ -24705,7 +24705,7 @@
 
 	var React = __webpack_require__(1);
 	var BookIndex = __webpack_require__(217);
-	var NavBar = __webpack_require__(243);
+	var NavBar = __webpack_require__(244);
 	
 	var Core = React.createClass({
 	  displayName: 'Core',
@@ -24732,7 +24732,7 @@
 	var React = __webpack_require__(1);
 	var BookStore = __webpack_require__(218);
 	var GoogleApiUtil = __webpack_require__(241);
-	var UserActions = __webpack_require__(246);
+	var UserActions = __webpack_require__(243);
 	var ApiActions = __webpack_require__(242);
 	var Link = __webpack_require__(159).Link;
 	
@@ -24747,7 +24747,7 @@
 	  componentDidMount: function () {
 	    this.bookIndexToken = BookStore.addListener(this._onChange);
 	    // Add action for fetching books, call
-	    ApiActions.fetchBooks("");
+	    UserActions.fetchGoogleBooks("");
 	  },
 	
 	  componentWillUnmount: function () {
@@ -24761,7 +24761,6 @@
 	  render: function () {
 	
 	    var bookList = this.state.books.map(function (book) {
-	
 	      var authors = book.volumeInfo.authors.map(function (author, index) {
 	        return React.createElement(
 	          'li',
@@ -24778,9 +24777,10 @@
 	        React.createElement(
 	          'li',
 	          { className: 'bookIndexItem', key: book.id },
+	          React.createElement('img', { src: book.volumeInfo.imageLinks.thumbnail }),
 	          React.createElement(
 	            'p',
-	            null,
+	            { className: 'bookTitle' },
 	            book.volumeInfo.title
 	          ),
 	          React.createElement(
@@ -31652,25 +31652,38 @@
 
 	var AppDispatcher = __webpack_require__(237);
 	var BookConstants = __webpack_require__(240);
-	var GoogleApiUtil = __webpack_require__(241);
 	
 	ApiActions = {
+	
 	  receiveAll: function (books) {
 	    AppDispatcher.dispatch({
 	      actionType: BookConstants.BOOKS_RECEIVED,
 	      books: books
 	    });
-	  },
-	
-	  fetchBooks: function (searchTerms) {
-	    GoogleApiUtil.fetchBooks(searchTerms);
 	  }
+	
 	};
 	
 	module.exports = ApiActions;
 
 /***/ },
 /* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(237);
+	var BookConstants = __webpack_require__(240);
+	var GoogleApiUtil = __webpack_require__(241);
+	
+	UserActions = {
+	  fetchGoogleBooks: function (searchTerms) {
+	    GoogleApiUtil.fetchBooks(searchTerms);
+	  }
+	};
+	
+	module.exports = UserActions;
+
+/***/ },
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -31724,7 +31737,7 @@
 	module.exports = navBar;
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var ApiActions = __webpack_require__(242);
@@ -31748,7 +31761,7 @@
 	window.ApiUtil = ApiUtil;
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -31770,24 +31783,6 @@
 	});
 	
 	module.exports = book;
-
-/***/ },
-/* 246 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(237);
-	var BookConstants = __webpack_require__(240);
-	
-	UserActions = {
-	  selectBook: function (book) {
-	    AppDispatcher.dispatch({
-	      actionType: BookConstants.BOOK_RECEIVED,
-	      book: book
-	    });
-	  }
-	};
-	
-	module.exports = ApiActions;
 
 /***/ }
 /******/ ]);

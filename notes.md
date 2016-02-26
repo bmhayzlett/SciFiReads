@@ -16,7 +16,6 @@ Google Books API
 
 TODO
 
-- change pages to book detail page via router
 - Add action to fetch books from api instead of fetching straight from book
 index react component
 - CSS styling soon

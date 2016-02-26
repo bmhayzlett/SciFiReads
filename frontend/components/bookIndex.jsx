@@ -14,7 +14,7 @@ var bookIndex = React.createClass({
   componentDidMount: function () {
     this.bookIndexToken = BookStore.addListener(this._onChange);
     // Add action for fetching books, call
-    ApiActions.fetchBooks("");
+    UserActions.fetchGoogleBooks("");
   },
 
   componentWillUnmount: function () {
@@ -31,7 +31,6 @@ var bookIndex = React.createClass({
 
 
     var bookList = this.state.books.map(function (book) {
-
       var authors = book.volumeInfo.authors.map(function (author, index) {
         return <li key={index}>{author}</li>
       });
@@ -41,7 +40,8 @@ var bookIndex = React.createClass({
       return  (
         <Link to={bookUrl}>
           <li className="bookIndexItem" key={book.id}>
-              <p>{book.volumeInfo.title}</p>
+              <img src={book.volumeInfo.imageLinks.thumbnail}/>
+              <p className="bookTitle">{book.volumeInfo.title}</p>
               <ul>Author(s): {authors}
             </ul>
           </li>

@@ -1,13 +1,11 @@
 var AppDispatcher = require('../dispatcher');
-var BookConstants = require('../constants/book_constants')
+var BookConstants = require('../constants/book_constants');
+var GoogleApiUtil = require('../util/google_api_util');
 
 UserActions = {
-  selectBook: function(book){
-    AppDispatcher.dispatch({
-      actionType: BookConstants.BOOK_RECEIVED,
-      book: book
-    });
+  fetchGoogleBooks: function(searchTerms){
+    GoogleApiUtil.fetchBooks(searchTerms);
   }
 }
 
-module.exports = ApiActions;
+module.exports = UserActions;
