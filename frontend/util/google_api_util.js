@@ -1,6 +1,6 @@
 var ApiActions = require('../actions/api_actions.js');
 
-ApiUtil = {
+GoogleApiUtil = {
 
   fetchBooks: function (searchItems) {
     $.ajax ({
@@ -10,7 +10,6 @@ ApiUtil = {
         '&key=' + window.keys,
       type: 'GET',
       success: function (books){
-        console.log(books);
         ApiActions.receiveAll(books);
       }
     });
@@ -18,6 +17,4 @@ ApiUtil = {
 
 }
 
-module.exports = ApiUtil;
-
-window.ApiUtil = ApiUtil;
+module.exports = GoogleApiUtil;

@@ -12,3 +12,14 @@ Google Books API
 -   single book display
   1.    1.  https://www.googleapis.com/books/v1/volumes?q=search+terms
         where q=search+terms is subject=Fiction+Science+Fiction
+
+
+TODO
+
+- change pages to book detail page via router
+- Add action to fetch books from api instead of fetching straight from book
+index react component
+- CSS styling soon
+- Test that you can refresh on the book detail page, handle what happens
+- schema, redo books database, remove all columns but add google id column with index. total stars and reviewers can be pulled from other databases
+- Break the google api query string, move different keys and values around

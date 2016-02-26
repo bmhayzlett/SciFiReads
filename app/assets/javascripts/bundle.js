@@ -50,20 +50,19 @@
 	var Router = __webpack_require__(159).Router;
 	var Route = __webpack_require__(159).Route;
 	var IndexRoute = __webpack_require__(159).IndexRoute;
+	var Link = __webpack_require__(159).Link;
 	
 	var Core = __webpack_require__(216);
 	var ApiUtil = __webpack_require__(244);
 	var BookStore = __webpack_require__(218);
 	var BookIndex = __webpack_require__(217);
+	var Book = __webpack_require__(245);
 	
 	var EntryRouter = React.createElement(
-	  Router,
-	  null,
-	  React.createElement(
-	    Route,
-	    { path: '/', component: Core },
-	    React.createElement(IndexRoute, { component: BookIndex })
-	  )
+	  Route,
+	  { path: '/', component: Core },
+	  React.createElement(IndexRoute, { component: BookIndex }),
+	  React.createElement(Route, { path: '/books/:id', component: Book })
 	);
 	
 	document.addEventListener('DOMContentLoaded', function () {
@@ -24716,7 +24715,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      ' HELLO FROM CORE',
+	      'HELLO FROM CORE',
 	      React.createElement(NavBar, null),
 	      this.props.children
 	    );
@@ -24732,7 +24731,10 @@
 
 	var React = __webpack_require__(1);
 	var BookStore = __webpack_require__(218);
-	var ApiUtil = __webpack_require__(241);
+	var GoogleApiUtil = __webpack_require__(241);
+	var UserActions = __webpack_require__(246);
+	var ApiActions = __webpack_require__(242);
+	var Link = __webpack_require__(159).Link;
 	
 	var bookIndex = React.createClass({
 	  displayName: 'bookIndex',
@@ -24744,7 +24746,12 @@
 	
 	  componentDidMount: function () {
 	    this.bookIndexToken = BookStore.addListener(this._onChange);
-	    ApiUtil.fetchBooks("");
+	    // Add action for fetching books, call
+	    ApiActions.fetchBooks("");
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.bookIndexToken.remove();
 	  },
 	
 	  _onChange: function () {
@@ -24754,19 +24761,34 @@
 	  render: function () {
 	
 	    var bookList = this.state.books.map(function (book) {
-	      // <BookListItem key={book.id} book={book}/>
+	
+	      var authors = book.volumeInfo.authors.map(function (author, index) {
+	        return React.createElement(
+	          'li',
+	          { key: index },
+	          author
+	        );
+	      });
+	
+	      var bookUrl = '/books/' + book.id;
+	
 	      return React.createElement(
-	        'li',
-	        null,
+	        Link,
+	        { to: bookUrl },
 	        React.createElement(
-	          'p',
-	          null,
-	          book.volumeInfo.title
-	        ),
-	        React.createElement(
-	          'p',
-	          null,
-	          book.volumeInfo.authors[0]
+	          'li',
+	          { className: 'bookIndexItem', key: book.id },
+	          React.createElement(
+	            'p',
+	            null,
+	            book.volumeInfo.title
+	          ),
+	          React.createElement(
+	            'ul',
+	            null,
+	            'Author(s): ',
+	            authors
+	          )
 	        )
 	      );
 	    });
@@ -24821,8 +24843,8 @@
 	
 	function resetBooks(books) {
 	  _books = {};
-	  books.forEach(function (book, index) {
-	    _books[index] = book;
+	  books.forEach(function (book) {
+	    _books[book.id] = book;
 	  });
 	};
 	
@@ -31596,7 +31618,8 @@
 /***/ function(module, exports) {
 
 	BookConstants = {
-	  BOOKS_RECEIVED: "BOOKS_RECEIVED"
+	  BOOKS_RECEIVED: "BOOKS_RECEIVED",
+	  BOOK_RECEIVED: "BOOK_RECEIVED"
 	};
 	
 	module.exports = BookConstants;
@@ -31607,14 +31630,13 @@
 
 	var ApiActions = __webpack_require__(242);
 	
-	ApiUtil = {
+	GoogleApiUtil = {
 	
 	  fetchBooks: function (searchItems) {
 	    $.ajax({
 	      url: 'https://www.googleapis.com/books/v1/volumes?' + 'q=subject:"Fiction+Science+Fiction"' + searchItems + '&fields=items(id,volumeInfo(title,authors,description,imageLinks))' + '&key=' + window.keys,
 	      type: 'GET',
 	      success: function (books) {
-	        console.log(books);
 	        ApiActions.receiveAll(books);
 	      }
 	    });
@@ -31622,9 +31644,7 @@
 	
 	};
 	
-	module.exports = ApiUtil;
-	
-	window.ApiUtil = ApiUtil;
+	module.exports = GoogleApiUtil;
 
 /***/ },
 /* 242 */
@@ -31632,6 +31652,7 @@
 
 	var AppDispatcher = __webpack_require__(237);
 	var BookConstants = __webpack_require__(240);
+	var GoogleApiUtil = __webpack_require__(241);
 	
 	ApiActions = {
 	  receiveAll: function (books) {
@@ -31639,6 +31660,10 @@
 	      actionType: BookConstants.BOOKS_RECEIVED,
 	      books: books
 	    });
+	  },
+	
+	  fetchBooks: function (searchTerms) {
+	    GoogleApiUtil.fetchBooks(searchTerms);
 	  }
 	};
 	
@@ -31655,12 +31680,16 @@
 	
 	
 	  render: function () {
+	    var home = function (e) {
+	      window.location = "/#/";
+	    }.bind(this);
+	
 	    return React.createElement(
 	      "div",
 	      { className: "navBar" },
 	      React.createElement(
 	        "h2",
-	        { className: "homeButton" },
+	        { className: "homeButton", onClick: home },
 	        "SciFiReads"
 	      ),
 	      React.createElement(
@@ -31668,7 +31697,7 @@
 	        null,
 	        React.createElement(
 	          "li",
-	          { className: "homeButton" },
+	          { className: "homeButton", onClick: home },
 	          "Home"
 	        ),
 	        React.createElement(
@@ -31717,6 +31746,48 @@
 	module.exports = ApiUtil;
 	
 	window.ApiUtil = ApiUtil;
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var book = React.createClass({
+	  displayName: "book",
+	
+	
+	  componentDidMount: function () {},
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "bookDisplay" },
+	      "Book Information"
+	    );
+	  }
+	
+	});
+	
+	module.exports = book;
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(237);
+	var BookConstants = __webpack_require__(240);
+	
+	UserActions = {
+	  selectBook: function (book) {
+	    AppDispatcher.dispatch({
+	      actionType: BookConstants.BOOK_RECEIVED,
+	      book: book
+	    });
+	  }
+	};
+	
+	module.exports = ApiActions;
 
 /***/ }
 /******/ ]);

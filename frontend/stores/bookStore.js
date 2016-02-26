@@ -24,10 +24,11 @@ BookStore.all = function() {
   return bookArray;
 };
 
+
 function resetBooks(books) {
   _books = {}
-  books.forEach(function(book, index){
-    _books[index] = book;
+  books.forEach(function(book){
+    _books[book.id] = book;
   });
 };
 

@@ -1,6 +1,9 @@
 var React = require('react');
 var BookStore = require('../stores/bookStore');
-var ApiUtil = require('../util/google_api_util');
+var GoogleApiUtil = require('../util/google_api_util');
+var UserActions = require('../actions/user_actions');
+var ApiActions = require('../actions/api_actions');
+var Link = require('react-router').Link;
 
 var bookIndex = React.createClass({
 
@@ -10,21 +13,40 @@ var bookIndex = React.createClass({
 
   componentDidMount: function () {
     this.bookIndexToken = BookStore.addListener(this._onChange);
-    ApiUtil.fetchBooks("");
+    // Add action for fetching books, call
+    ApiActions.fetchBooks("");
+  },
+
+  componentWillUnmount: function () {
+    this.bookIndexToken.remove();
   },
 
   _onChange: function () {
     this.setState({books: BookStore.all()});
   },
 
+
+
   render: function () {
 
+
     var bookList = this.state.books.map(function (book) {
-      // <BookListItem key={book.id} book={book}/>
-      return  <li>
-        <p>{book.volumeInfo.title}</p>
-        <p>{book.volumeInfo.authors[0]}</p>
-      </li>;
+
+      var authors = book.volumeInfo.authors.map(function (author, index) {
+        return <li key={index}>{author}</li>
+      });
+
+      var bookUrl = '/books/' + book.id;
+
+      return  (
+        <Link to={bookUrl}>
+          <li className="bookIndexItem" key={book.id}>
+              <p>{book.volumeInfo.title}</p>
+              <ul>Author(s): {authors}
+            </ul>
+          </li>
+        </Link>
+      )
     });
 
     return (

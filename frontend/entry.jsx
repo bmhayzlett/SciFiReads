@@ -4,19 +4,20 @@ var ReactDOM = require('react-dom');
 var Router = require('react-router').Router;
 var Route = require('react-router').Route;
 var IndexRoute = require('react-router').IndexRoute;
+var Link = require('react-router').Link;
 
 var Core = require('./components/core');
 var ApiUtil = require('./util/api_util')
 var BookStore = require('./stores/bookStore');
 var BookIndex = require('./components/bookIndex');
+var Book = require('./components/book');
 
 var EntryRouter = (
-  <Router>
     <Route path="/" component={Core}>
       <IndexRoute component={BookIndex} />
+      <Route path="/books/:id" component={Book} />
     </Route>
-  </Router>
-)
+);
 
 document.addEventListener('DOMContentLoaded', function () {
   ReactDOM.render(<Router>{EntryRouter}</Router>,
