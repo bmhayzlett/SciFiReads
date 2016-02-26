@@ -8,8 +8,8 @@ var navBar = React.createClass({
     }.bind(this);
 
     return <div className="navBar">
-      <h2 className="homeButton" onClick={home}>SciFiReads</h2>
-      <ul>
+      <h2 className="SciFiReads" onClick={home}>SciFiReads</h2>
+      <ul className="navLinks">
         <li className="homeButton" onClick={home}>Home</li>
         <li className="myBooksButton">My Books</li>
         <li className="friendsButton">Friends</li>

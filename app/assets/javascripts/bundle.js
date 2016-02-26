@@ -24715,7 +24715,6 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'HELLO FROM CORE',
 	      React.createElement(NavBar, null),
 	      this.props.children
 	    );
@@ -31702,12 +31701,12 @@
 	      { className: "navBar" },
 	      React.createElement(
 	        "h2",
-	        { className: "homeButton", onClick: home },
+	        { className: "SciFiReads", onClick: home },
 	        "SciFiReads"
 	      ),
 	      React.createElement(
 	        "ul",
-	        null,
+	        { className: "navLinks" },
 	        React.createElement(
 	          "li",
 	          { className: "homeButton", onClick: home },

@@ -13,3 +13,17 @@
  *= require_tree .
  *= require_self
  */
+body {
+  background: black;
+  font-family: monospace;
+
+}
+
+.navBar {
+  font-family: 'Press Start 2P', cursive;
+  color: #0F0;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
