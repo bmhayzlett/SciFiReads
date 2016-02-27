@@ -1,0 +1,17 @@
+.header {
+  color: #0F0;
+  background: black;
+  padding: 5px;
+  border-bottom: 2px solid #0F0;
+  height: 60px;
+}
+
+.navBar {
+  margin: 0 auto;
+  width: 1000px;
+}
+
+.SciFiReads {
+  font-size: 48px;
+  display: inline-block;
+}

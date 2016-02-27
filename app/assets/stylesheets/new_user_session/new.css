@@ -1,0 +1,98 @@
+.sub_intro {
+  font-size: 28px;
+  float: right;
+  margin-top: 20px;
+}
+
+.new_box {
+  margin: auto;
+  margin-top: 150px;
+  position: relative;
+  top: 0; left: 0; bottom: 0; right: 0;
+  width: 500px;
+  height: 300px;
+  border: 2px solid #0F0;
+  padding: 5px;
+}
+
+.sign_type {
+  font-size: 24px;
+  display: block;
+  text-align: center;
+  padding-top: 10px;8
+
+}
+
+.new_sub_text {
+  font-size: 14px;
+}
+
+.new_right_sub_text {
+  float: right;
+}
+
+.new_left_sub_text {
+  float: left;
+}
+
+#type1:after {
+  visibility: visible;
+  content: '';
+  background-color: #0F0;
+  display: inline-block;
+  position: relative;
+  width: 0.5em;
+  height: 1em;
+  top: 5px;
+  margin-left: 0;
+  -moz-animation: flicker 0.1s steps(2, start) infinite, ready 1s steps(2, start) 0.1s 3 forwards;
+  -webkit-animation: flicker 0.1s steps(2, start) infinite, ready 1s steps(2, start) 0.1s 3 forwards;
+  animation: flicker 0.1s steps(2, start) infinite, ready 1s steps(2, start) 0.1s 3 forwards;
+}
+
+#type2.blinkNow:after {
+  visibility: visible;
+  content: '';
+  background-color: #0F0;
+  display: inline-block;
+  position: relative;
+  width: 0.5em;
+  height: 1em;
+  top: 5px;
+  margin-left: 0;
+  -moz-animation: flicker 2.5s steps(2, start) infinite, ready 1s steps(2, start) 2.5s infinite;
+  -webkit-animation: flicker 2.5s steps(2, start) infinite, ready 1s steps(2, start) 2.5s infinite;
+  animation: flicker 2.5s steps(2, start) infinite, ready 1s steps(2, start) 2.5s infinite;
+}
+
+@-moz-keyframes flicker {
+  to {
+    color: #0F0;
+  }
+}
+@-webkit-keyframes flicker {
+  to {
+    color: #0F0;
+  }
+}
+@keyframes flicker {
+  to {
+    color: #0F0;
+  }
+}
+
+@-moz-keyframes ready {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes ready {
+  to {
+    visibility: hidden;
+  }
+}
+@keyframes ready {
+  to {
+    visibility: hidden;
+  }
+}

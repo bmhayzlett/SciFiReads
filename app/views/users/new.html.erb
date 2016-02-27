@@ -1,28 +1,4 @@
-<div id="sign_up">
-  <h2>Sign Up</h2>
-
-  <form action="<%= users_url %>" method="post">
-    <%= auth_token_input %>
-
-    <label for="username">
-      Username
-      <input type="text" name="user[username]" value="">
-    </label>
-
-    <label for="password">
-      Password
-      <input type="text" name="user[password]" value="">
-    </label>
-
-    <input type="submit" value="Sign Up">
-
-    <div>
-      Build Guest sign-in functionality
-    </div>
-
-    <%= link_to "Already a user? Sign in here!", new_session_url %>
-
-  </form>
-
-
-</div>
+<%= render "/shared/new", sign_type: "Sign Up Here",
+    form_action: users_url, link_to_text: "Already a user? Sign in here!",
+    opposite_form_action: new_session_url
+    %>

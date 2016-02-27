@@ -1,0 +1,41 @@
+
+<header class="header">
+  <nav class="navBar">
+    <h2 id="type1" class="SciFiReads"></h2>
+    <h2 id="type2" class="sub_intro"></h2>
+  </nav>
+</header>
+<!-- Turn pages. Find adventure. -->
+
+
+<div class="new_box">
+  <h2 class="sign_type"><%= sign_type %></h2>
+
+  <form action="<%= form_action %>" method="post">
+    <%= auth_token_input %>
+
+    <label for="username">
+      Username:
+      <input type="text" name="user[username]" value="">
+    </label>
+
+    <label for="password">
+      Password:
+      <input type="password" name="user[password]" value="">
+    </label>
+
+    <input type="submit" value="<%= sign_type %>">
+
+    <div class="new_sub_text">
+      <div class ="new_left_sub_text">
+        Build Guest sign-in functionality
+      </div>
+
+      <div class="new_right_sub_text">
+        <%= link_to link_to_text, opposite_form_action %>
+      </div>
+    </div>
+
+  </form>
+
+</div>
