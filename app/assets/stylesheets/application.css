@@ -31,8 +31,14 @@
    background: transparent;
  }
 
+ul {
+  list-style: none;
+}
+
 body {
   background: black;
   font-family: 'Orbitron', sans-serif;
   color: white;
+  margin: 0 auto;
+  width: 996px; 
 }

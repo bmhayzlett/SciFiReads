@@ -5,34 +5,57 @@
 }
 
 .new_box {
-  margin: auto;
-  margin-top: 150px;
-  position: relative;
-  top: 0; left: 0; bottom: 0; right: 0;
-  width: 500px;
-  height: 300px;
   border: 2px solid #0F0;
+  margin: auto;
+  width: 400px;
+  height: 200px;
   padding: 5px;
+  padding-top: 50px;
+  display: flex;
+  align-content: space-between;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 15%;
+  position: relative;
+
 }
 
 .sign_type {
-  font-size: 24px;
-  display: block;
-  text-align: center;
-  padding-top: 10px;8
+  font-size: 32px;
+  display: flex;
+  justify-content: center;
+}
 
+.new_form {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.new_submission {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 5px;
+}
+
+.text_input {
+  margin-left: 5px;
+  border-bottom: 2px solid white;
 }
 
 .new_sub_text {
   font-size: 14px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .new_right_sub_text {
-  float: right;
+  display: flex;
 }
 
 .new_left_sub_text {
-  float: left;
+  display: flex;
 }
 
 #type1:after {
@@ -45,9 +68,9 @@
   height: 1em;
   top: 5px;
   margin-left: 0;
-  -moz-animation: flicker 0.1s steps(2, start) infinite, ready 1s steps(2, start) 0.1s 3 forwards;
-  -webkit-animation: flicker 0.1s steps(2, start) infinite, ready 1s steps(2, start) 0.1s 3 forwards;
-  animation: flicker 0.1s steps(2, start) infinite, ready 1s steps(2, start) 0.1s 3 forwards;
+  -moz-animation: flicker 1s steps(2, start) infinite, ready 1s steps(2, start) 1s 3 forwards;
+  -webkit-animation: flicker 1s steps(2, start) infinite, ready 1s steps(2, start) 1s 3 forwards;
+  animation: flicker 1s steps(2, start) infinite, ready 1s steps(2, start) 1s 3 forwards;
 }
 
 #type2.blinkNow:after {

@@ -24794,8 +24794,7 @@
 	
 	    return React.createElement(
 	      'div',
-	      null,
-	      'HELLO FROM bookIndex!',
+	      { className: 'bookList' },
 	      React.createElement(
 	        'ul',
 	        null,
@@ -31697,35 +31696,39 @@
 	    }.bind(this);
 	
 	    return React.createElement(
-	      "div",
-	      { className: "navBar" },
+	      "header",
+	      { className: "header" },
 	      React.createElement(
-	        "h2",
-	        { className: "SciFiReads", onClick: home },
-	        "SciFiReads"
-	      ),
-	      React.createElement(
-	        "ul",
-	        { className: "navLinks" },
+	        "div",
+	        { className: "navBar" },
 	        React.createElement(
-	          "li",
-	          { className: "homeButton", onClick: home },
-	          "Home"
+	          "h2",
+	          { id: "SciFiReads", className: "SciFiReads", onClick: home },
+	          "SciFiReads"
 	        ),
 	        React.createElement(
-	          "li",
-	          { className: "myBooksButton" },
-	          "My Books"
-	        ),
-	        React.createElement(
-	          "li",
-	          { className: "friendsButton" },
-	          "Friends"
-	        ),
-	        React.createElement(
-	          "li",
-	          { className: "logout" },
-	          "Log Out"
+	          "ul",
+	          { className: "navLinks" },
+	          React.createElement(
+	            "li",
+	            { className: "homeButton", onClick: home },
+	            "Home"
+	          ),
+	          React.createElement(
+	            "li",
+	            { className: "myBooksButton" },
+	            "My Books"
+	          ),
+	          React.createElement(
+	            "li",
+	            { className: "friendsButton" },
+	            "Friends"
+	          ),
+	          React.createElement(
+	            "li",
+	            { className: "logout" },
+	            "Log Out"
+	          )
 	        )
 	      )
 	    );

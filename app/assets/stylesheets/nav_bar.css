@@ -1,7 +1,6 @@
 .header {
   color: #0F0;
   background: black;
-  padding: 5px;
   border-bottom: 2px solid #0F0;
   height: 60px;
 }
@@ -9,9 +8,39 @@
 .navBar {
   margin: 0 auto;
   width: 1000px;
+  height: 60px;
 }
 
 .SciFiReads {
   font-size: 48px;
+  height: 60px;
   display: inline-block;
+}
+
+#SciFiReads:after {
+  visibility: hidden;
+  content: '';
+  display: inline-block;
+  position: relative;
+  top: 5px;
+  height: 1em;
+}
+
+.navLinks {
+  float: right;
+  font-size: 20px;
+  height: 60px;
+  border-right: 2px solid #0F0;
+  display: flex;
+  align-items: center;
+}
+
+.navLinks > li {
+  height: inherit;
+  float: left;
+  border-left: 2px solid #0F0;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
 }

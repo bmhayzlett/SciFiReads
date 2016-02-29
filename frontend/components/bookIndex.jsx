@@ -50,8 +50,7 @@ var bookIndex = React.createClass({
     });
 
     return (
-      <div>
-        HELLO FROM bookIndex!
+      <div className="bookList">
         <ul>
           {bookList}
         </ul>
