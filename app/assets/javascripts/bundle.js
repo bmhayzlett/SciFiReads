@@ -31732,6 +31732,11 @@
 	  displayName: "navBar",
 	
 	
+	  doSearch: function () {
+	    var query = this.refs.searchInput.getDOMNode().value;
+	    UserActions.fetchGoogleBooks(query);
+	  },
+	
 	  render: function () {
 	    var home = function (e) {
 	      window.location = "/#/";
@@ -31748,6 +31753,9 @@
 	          { id: "SciFiReads", className: "SciFiReads", onClick: home },
 	          "SciFiReads"
 	        ),
+	        React.createElement("input", { type: "text", ref: "searchInput", placeholder: "Search Books",
+	          value: this.props.query, onChange: this.doSearch,
+	          className: "searchBar" }),
 	        React.createElement(
 	          "ul",
 	          { className: "navLinks" },
