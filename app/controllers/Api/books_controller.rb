@@ -6,6 +6,7 @@ class Api::BooksController < ApplicationController
     render json: @books
   end
 
+
   def show
   end
 
