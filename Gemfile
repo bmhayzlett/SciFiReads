@@ -35,6 +35,10 @@ gem 'newrelic_rpm'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
+  gem 'faker'
+
+  gem 'rack-cors'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -44,7 +48,7 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'annotate'
   gem 'better_errors'
-  gem 'faker'
+
 
 end
 
