@@ -29,6 +29,9 @@ gem 'bcrypt'
 # Use Figaro to hide API keys from users
 gem 'figaro'
 
+#gemfile for Heroku deployment
+gem 'newrelic_rpm'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
