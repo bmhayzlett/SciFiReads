@@ -3,6 +3,7 @@ var ReactDOM = require('react-dom');
 
 var Router = require('react-router').Router;
 var Route = require('react-router').Route;
+var History = require('react-router').hashHistory;
 var IndexRoute = require('react-router').IndexRoute;
 var Link = require('react-router').Link;
 
@@ -20,6 +21,7 @@ var EntryRouter = (
 );
 
 document.addEventListener('DOMContentLoaded', function () {
-  ReactDOM.render(<Router>{EntryRouter}</Router>,
-    document.getElementById('content'));
+  if (document.getElementById('content')) {
+      ReactDOM.render(<Router history={History}>{EntryRouter}</Router>,
+        document.getElementById('content'));}
 });

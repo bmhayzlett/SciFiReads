@@ -11,6 +11,10 @@ BookStore.__onDispatch = function (payload) {
       resetBooks(payload.books.items);
       BookStore.__emitChange();
       break;
+    case BookConstants.BOOK_RECEIVED:
+      resetBooks([payload.book])
+      BookStore.__emitChange();
+      break;
   }
 };
 
@@ -24,6 +28,10 @@ BookStore.all = function() {
   return bookArray;
 };
 
+
+BookStore.find = function (gid) {
+  return _books[gid];
+};
 
 function resetBooks(books) {
   _books = {}

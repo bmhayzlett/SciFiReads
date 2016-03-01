@@ -49,6 +49,7 @@
 	
 	var Router = __webpack_require__(159).Router;
 	var Route = __webpack_require__(159).Route;
+	var History = __webpack_require__(159).hashHistory;
 	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var Link = __webpack_require__(159).Link;
 	
@@ -66,11 +67,13 @@
 	);
 	
 	document.addEventListener('DOMContentLoaded', function () {
-	  ReactDOM.render(React.createElement(
-	    Router,
-	    null,
-	    EntryRouter
-	  ), document.getElementById('content'));
+	  if (document.getElementById('content')) {
+	    ReactDOM.render(React.createElement(
+	      Router,
+	      { history: History },
+	      EntryRouter
+	    ), document.getElementById('content'));
+	  }
 	});
 
 /***/ },
@@ -24746,7 +24749,7 @@
 	  componentDidMount: function () {
 	    this.bookIndexToken = BookStore.addListener(this._onChange);
 	    // Add action for fetching books, call
-	    UserActions.fetchGoogleBooks("");
+	    UserActions.fetchGoogleBooks("1984");
 	  },
 	
 	  componentWillUnmount: function () {
@@ -24759,24 +24762,34 @@
 	
 	  render: function () {
 	
-	    var bookList = this.state.books.map(function (book) {
-	      var authors = book.volumeInfo.authors.map(function (author, index) {
+	    var bookList = this.state.books.map(function (book, index1) {
+	      var authors = book.volumeInfo.authors.map(function (author, index2) {
 	        return React.createElement(
 	          'li',
-	          { key: index },
+	          { key: index2 },
 	          author
 	        );
 	      });
 	
 	      var bookUrl = '/books/' + book.id;
 	
+	      if (book.volumeInfo.imageLinks !== undefined && book.volumeInfo.imageLinks.thumbnail !== undefined) {
+	        var thumbNail = React.createElement('img', { src: book.volumeInfo.imageLinks.thumbnail });
+	      } else {
+	        thumbNail = "No book image!";
+	      };
+	
 	      return React.createElement(
 	        Link,
-	        { to: bookUrl },
+	        { key: index1, to: bookUrl },
 	        React.createElement(
 	          'li',
-	          { className: 'bookIndexItem', key: book.id },
-	          React.createElement('img', { src: book.volumeInfo.imageLinks.thumbnail }),
+	          { className: 'bookIndexItem' },
+	          React.createElement(
+	            'div',
+	            { className: 'indexThumbnail' },
+	            thumbNail
+	          ),
 	          React.createElement(
 	            'p',
 	            { className: 'bookTitle' },
@@ -24826,6 +24839,10 @@
 	      resetBooks(payload.books.items);
 	      BookStore.__emitChange();
 	      break;
+	    case BookConstants.BOOK_RECEIVED:
+	      resetBooks([payload.book]);
+	      BookStore.__emitChange();
+	      break;
 	  }
 	};
 	
@@ -24837,6 +24854,10 @@
 	    }
 	  }
 	  return bookArray;
+	};
+	
+	BookStore.find = function (gid) {
+	  return _books[gid];
 	};
 	
 	function resetBooks(books) {
@@ -31638,6 +31659,16 @@
 	        ApiActions.receiveAll(books);
 	      }
 	    });
+	  },
+	
+	  fetchSingleBook: function (gBookId) {
+	    $.ajax({
+	      url: 'https://www.googleapis.com/books/v1/volumes/' + gBookId + '?key=' + window.keys + '&fields=id,volumeInfo(title,authors,description,imageLinks)',
+	      type: 'GET',
+	      success: function (book) {
+	        ApiActions.receiveSingleBook(book);
+	      }
+	    });
 	  }
 	
 	};
@@ -31658,6 +31689,13 @@
 	      actionType: BookConstants.BOOKS_RECEIVED,
 	      books: books
 	    });
+	  },
+	
+	  receiveSingleBook: function (book) {
+	    AppDispatcher.dispatch({
+	      actionType: BookConstants.BOOK_RECEIVED,
+	      book: book
+	    });
 	  }
 	
 	};
@@ -31675,6 +31713,10 @@
 	UserActions = {
 	  fetchGoogleBooks: function (searchTerms) {
 	    GoogleApiUtil.fetchBooks(searchTerms);
+	  },
+	
+	  fetchSingleGoogleBook: function (gid) {
+	    GoogleApiUtil.fetchSingleBook(gid);
 	  }
 	};
 	
@@ -31767,24 +31809,90 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var GoogleApiUtil = __webpack_require__(241);
+	var UserActions = __webpack_require__(243);
 	
-	var book = React.createClass({
-	  displayName: "book",
+	var Book = React.createClass({
+	  displayName: 'Book',
 	
 	
-	  componentDidMount: function () {},
+	  getInitialState: function () {
+	    if (BookStore.find(this.props.params.id) !== undefined) {
+	      return { book: BookStore.find(this.props.params.id) };
+	    } else {
+	      return { book: { id: "", volumeInfo: { title: "", authors: [],
+	            description: "", imageLinks: undefined } } };
+	    }
+	  },
+	
+	  componentWillMount: function () {
+	    UserActions.fetchSingleGoogleBook(this.props.params.id);
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ book: BookStore.find(this.props.params.id) });
+	  },
+	
+	  componentDidMount: function () {
+	    this.bookListener = BookStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.bookListener.remove();
+	  },
 	
 	  render: function () {
+	
+	    // get book cover image
+	    if (this.state.book.volumeInfo.imageLinks !== undefined) {
+	      if (this.state.book.volumeInfo.imageLinks.thumbnail !== undefined) {
+	        bookImage = React.createElement('img', { src: this.state.book.volumeInfo.imageLinks.thumbnail });
+	      } else {
+	        bookImage = "No book image!";
+	      };
+	    } else {
+	      bookImage = "No book image!";
+	    };
+	
+	    // get authors
+	    var authors = this.state.book.volumeInfo.authors.map(function (author, index) {
+	      return React.createElement(
+	        'li',
+	        { key: index },
+	        author
+	      );
+	    });
+	
 	    return React.createElement(
-	      "div",
-	      { className: "bookDisplay" },
-	      "Book Information"
+	      'div',
+	      { className: 'bookDisplay' },
+	      React.createElement(
+	        'div',
+	        { className: 'bookImage' },
+	        bookImage
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'bookTitle' },
+	        this.state.book.volumeInfo.title
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'bookAuthors' },
+	        'Author(s): ',
+	        authors
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'bookDescription' },
+	        this.state.book.volumeInfo.description.replace(/(<([^>]+)>)/ig, "")
+	      )
 	    );
 	  }
 	
 	});
 	
-	module.exports = book;
+	module.exports = Book;
 
 /***/ }
 /******/ ]);

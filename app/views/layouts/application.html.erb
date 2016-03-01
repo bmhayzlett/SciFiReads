@@ -2,13 +2,11 @@
 <html>
 <head>
   <title>SciFiReads</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
   <link href='https://fonts.googleapis.com/css?family=Orbitron:400,500' rel='stylesheet' type='text/css'>
   <script>  window.keys="<%= ENV["g"] %>"  </script>
-  <script src="jquery.js"></script>
-  <script src="typed.js"></script>
 
 </head>
 <body>
@@ -19,8 +17,6 @@
   <%= current_user.username %>
   <%= button_to "Sign Out", session_url, :method => :delete %>
 <% end %>
-
-  <script src="startup.js"/></script>
 
 </body>
 </html>

@@ -10,6 +10,13 @@ ApiActions = {
     });
   },
 
+  receiveSingleBook: function(book){
+    AppDispatcher.dispatch({
+      actionType: BookConstants.BOOK_RECEIVED,
+      book: book
+    });
+  }
+
 
 }
 

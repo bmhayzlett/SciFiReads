@@ -5,6 +5,10 @@ var GoogleApiUtil = require('../util/google_api_util');
 UserActions = {
   fetchGoogleBooks: function(searchTerms){
     GoogleApiUtil.fetchBooks(searchTerms);
+  },
+
+  fetchSingleGoogleBook: function(gid){
+    GoogleApiUtil.fetchSingleBook(gid);
   }
 }
 
