@@ -1,4 +1,5 @@
 var React = require('react');
+var UserActions = require('../actions/user_actions');
 
 var navBar = React.createClass({
 
@@ -7,6 +8,7 @@ var navBar = React.createClass({
     UserActions.fetchGoogleBooks(query);
   },
 
+// TODO: change this functionality to Link to...
   render: function () {
     var home = function(e) {
       window.location = "/#/"
@@ -23,13 +25,12 @@ var navBar = React.createClass({
             <li className="homeButton" onClick={home}>Home</li>
             <li className="myBooksButton">My Books</li>
             <li className="friendsButton">Friends</li>
-            <li className="logout">Log Out</li>
+            <li className="logout" onClick={UserActions.sign_out_session}>Log Out</li>
           </ul>
         </div>
       </header>
     );
   }
-
 });
 
 module.exports = navBar;

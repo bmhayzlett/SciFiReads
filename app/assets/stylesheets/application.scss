@@ -10,9 +10,13 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
- *= require_self
  */
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "./nav_bar";
+@import "./new_user_session/new";
+@import "./signed_in/bookIndex";
+
  html, body, header, nav, h1, a,
  ul, li, strong, main, button, i,
  section, img, div, h2, p, form,
@@ -40,5 +44,5 @@ body {
   font-family: 'Orbitron', sans-serif;
   color: white;
   margin: 0 auto;
-  width: 996px; 
+  width: 996px;
 }

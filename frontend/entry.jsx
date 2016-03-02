@@ -12,11 +12,12 @@ var ApiUtil = require('./util/api_util')
 var BookStore = require('./stores/bookStore');
 var BookIndex = require('./components/bookIndex');
 var Book = require('./components/book');
+var BookshelfButton = require('./components/bookshelfButton');
 
 var EntryRouter = (
     <Route path="/" component={Core}>
       <IndexRoute component={BookIndex} />
-      <Route path="/books/:id" component={Book} />
+      <Route path="/books/:id" component={Book}/>
     </Route>
 );
 

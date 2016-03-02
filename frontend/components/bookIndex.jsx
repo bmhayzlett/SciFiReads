@@ -63,6 +63,4 @@ var bookIndex = React.createClass({
 
 });
 
-window.bookIndex = bookIndex;
-
 module.exports = bookIndex;
