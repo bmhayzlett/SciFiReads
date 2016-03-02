@@ -4,6 +4,13 @@
   margin-top: 20px;
 }
 
+.matrix {
+  height: 618px;
+  width: 1000px;
+  position: relative;
+  /*background-color: blue;*/
+}
+
 .new_box {
   border: 2px solid #0F0;
   margin: auto;
@@ -15,9 +22,10 @@
   align-content: space-between;
   justify-content: space-between;
   flex-direction: column;
-  margin-top: 15%;
-  position: relative;
-
+  position: absolute;
+  top: 25%;
+  right: 30%;
+  left: 30%;
 }
 
 .sign_type {
