@@ -5,41 +5,63 @@ $(function(){
         callback: function () {
           setTimeout( function() {$("h2#type2").addClass("blinkNow")}, 3000);
           $("h2#type2").typed({
-              strings: ["^3000 Find your next SciFi journey"],
+              strings: ["^3000Follow the white rabbit"],
               typeSpeed: 25,
-              callback: setTimeout(Matrix, 5500)
+              callback: function () {setTimeout(Matrix,100)}
           });
         }
     });
 });
 
-var draw = function () {
+var Matrix = function () {
   var q=document.getElementById("q");
-  var ctx=q.getContext('2d');
-  var yPositions = Array(33).join(0).split('');
-  var RunMatrix = function () {
-    ctx.fillStyle='rgba(0, 0, 0, 0.05)';
-    ctx.fillRect(0,0,1000,618);
+  var ctx=q.getContext("2d");
+  var yPositions = Array(300).join(0).split('');
+  var draw=function(){
+    ctx.fillStyle='rgba(0,0,0,.15)';
+    ctx.fillRect(0,0,1000,1000);
     ctx.fillStyle="#0f0";
     ctx.font = '16px Georgia';
     yPositions.map(function(y,index){
-      text = String.fromCharCode((127-33)*Math.random()+33)
-      x=(index*30)+10;
-      q.getContext('2d').fillText(text, x, y);
-      if (y>30*21 + Math.random()*1e4) {
-        yPositions[index]=0;
+      text = String.fromCharCode((127-33)*Math.random()+33);
+      x = (index * 20 ) + 10;
+      ctx.fillText(text, x, y);
+      if (y > 100 + Math.random()*1e4) {
+        yPositions[index] = 0;
       } else {
-        yPositions[index]=y+30;
+        yPositions[index] = y + 20;
       }
-    });
-  }
-  setInterval(RunMatrix,300);
+    })
+  };
+  setInterval(draw,66);
 };
 
-function Matrix() {
-  if(typeof Game_Interval != "undefined") {clearInterval(Game_Interval)};
-  Game_Interval = setInterval(draw, 10000);
-};
+// var draw = function () {
+
+//   var yPositions = Array(30).join(0).split('');
+//   var RunMatrix = function () {
+//     ctx.fillStyle='rgba(0, 0, 0, 0.05)';
+//     ctx.fillRect(0,0,1000,1000);
+//     ctx.fillStyle="#0f0";
+//     ctx.font = '16px Georgia';
+//     yPositions.map(function(y,index){
+//       // text = String.fromCharCode((127-33)*Math.random()+33)
+//       x=(index*20)+10;
+//       // q.getContext('2d').fillText(text, x, y);
+//       if (y>100) {
+//         yPositions[index]=0;
+//       } else {
+//         yPositions[index]=y+20;
+//       }
+//     });
+//   }
+//   setInterval(RunMatrix,30);
+// };
+
+// function Matrix() {
+//   if(typeof Game_Interval != "undefined") {clearInterval(Game_Interval)};
+//   Game_Interval = setInterval(draw, 33);
+// };
 // var draw = function () {
 //   ctx.fillStyle='rgba(0,0,0,.05)';
 //   ctx.fillRect(0,0,width,height);

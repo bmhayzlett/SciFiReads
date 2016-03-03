@@ -5,9 +5,9 @@
 }
 
 .matrix {
-  height: 618px;
-  width: 1000px;
   position: relative;
+  height: 618;
+  width: 1000;
   /*background-color: blue;*/
 }
 
@@ -23,9 +23,10 @@
   justify-content: space-between;
   flex-direction: column;
   position: absolute;
-  top: 25%;
+  top: 23%;
   right: 30%;
   left: 30%;
+  background-color: rgba(0, 0, 0, .75);
 }
 
 .sign_type {
