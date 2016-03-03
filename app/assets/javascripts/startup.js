@@ -7,39 +7,39 @@ $(function(){
           $("h2#type2").typed({
               strings: ["^3000 Find your next SciFi journey"],
               typeSpeed: 25,
-              // callback: setTimeout(Matrix, 5500)
+              callback: setTimeout(Matrix, 5500)
           });
         }
     });
 });
 
-// var draw = function () {
-//   var q=document.getElementById("q");
-//   var ctx=q.getContext('2d');
-//   var yPositions = Array(33).join(0).split('');
-//   var RunMatrix = function () {
-//     ctx.fillStyle='rgba(0, 0, 0, 0.05)';
-//     ctx.fillRect(0,0,1000,618);
-//     ctx.fillStyle="#0f0";
-//     ctx.font = '16px Georgia';
-//     yPositions.map(function(y,index){
-//       text = String.fromCharCode((127-33)*Math.random()+33)
-//       x=(index*30)+10;
-//       q.getContext('2d').fillText(text, x, y);
-//       if (y>30*21 + Math.random()*1e4) {
-//         yPositions[index]=0;
-//       } else {
-//         yPositions[index]=y+30;
-//       }
-//     });
-//   }
-//   setInterval(RunMatrix,300);
-// };
-//
-// function Matrix() {
-//   if(typeof Game_Interval != "undefined") {clearInterval(Game_Interval)};
-//   Game_Interval = setInterval(draw, 10000);
-// };
+var draw = function () {
+  var q=document.getElementById("q");
+  var ctx=q.getContext('2d');
+  var yPositions = Array(33).join(0).split('');
+  var RunMatrix = function () {
+    ctx.fillStyle='rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0,0,1000,618);
+    ctx.fillStyle="#0f0";
+    ctx.font = '16px Georgia';
+    yPositions.map(function(y,index){
+      text = String.fromCharCode((127-33)*Math.random()+33)
+      x=(index*30)+10;
+      q.getContext('2d').fillText(text, x, y);
+      if (y>30*21 + Math.random()*1e4) {
+        yPositions[index]=0;
+      } else {
+        yPositions[index]=y+30;
+      }
+    });
+  }
+  setInterval(RunMatrix,300);
+};
+
+function Matrix() {
+  if(typeof Game_Interval != "undefined") {clearInterval(Game_Interval)};
+  Game_Interval = setInterval(draw, 10000);
+};
 // var draw = function () {
 //   ctx.fillStyle='rgba(0,0,0,.05)';
 //   ctx.fillRect(0,0,width,height);

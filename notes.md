@@ -16,5 +16,5 @@ Google Books API
 
 TODO
 
-- schema, redo books database, remove all columns but add google id column with index. total stars and reviewers can be pulled from other databases
 - Break the google api query string, move different keys and values around
+- Helper methods for renders everywhere

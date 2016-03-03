@@ -15,9 +15,14 @@ ApiActions = {
       actionType: BookConstants.BOOK_RECEIVED,
       book: book
     });
+  },
+
+  updateShelf: function(shelf){
+    AppDispatcher.dispatch({
+      actionType: BookConstants.SHELF_UPDATED,
+      shelf: shelf
+    });
   }
-
-
 }
 
 module.exports = ApiActions;

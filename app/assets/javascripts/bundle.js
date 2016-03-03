@@ -24830,6 +24830,7 @@
 	var BookConstants = __webpack_require__(240);
 
 	var _books = {};
+	var _shelf = "none";
 	var BookStore = new Store(Dispatcher);
 
 	BookStore.__onDispatch = function (payload) {
@@ -24840,6 +24841,10 @@
 	      break;
 	    case BookConstants.BOOK_RECEIVED:
 	      resetBooks([payload.book]);
+	      BookStore.__emitChange();
+	      break;
+	    case BookConstants.SHELF_UPDATED:
+	      resetShelf([payload.shelf]);
 	      BookStore.__emitChange();
 	      break;
 	  }
@@ -24858,6 +24863,10 @@
 	BookStore.find = function (gid) {
 	  return _books[gid];
 	};
+
+	function resetShelf(shelf) {
+	  _shelf = shelf;
+	}
 
 	function resetBooks(books) {
 	  _books = {};
@@ -31637,7 +31646,8 @@
 
 	BookConstants = {
 	  BOOKS_RECEIVED: "BOOKS_RECEIVED",
-	  BOOK_RECEIVED: "BOOK_RECEIVED"
+	  BOOK_RECEIVED: "BOOK_RECEIVED",
+	  SHELF_UPDATED: "SHELF_UPDATED"
 	};
 
 	module.exports = BookConstants;
@@ -31695,8 +31705,14 @@
 	      actionType: BookConstants.BOOK_RECEIVED,
 	      book: book
 	    });
-	  }
+	  },
 
+	  updateShelf: function (shelf) {
+	    AppDispatcher.dispatch({
+	      actionType: BookConstants.SHELF_UPDATED,
+	      shelf: shelf
+	    });
+	  }
 	};
 
 	module.exports = ApiActions;
@@ -31719,8 +31735,13 @@
 	    GoogleApiUtil.fetchSingleBook(gid);
 	  },
 
-	  sign_out_session: function () {
-	    ApiUtil.sign_out();
+	  SignOutSession: function () {
+	    ApiUtil.signOut();
+	  },
+
+	  addToBookshelf: function (newShelf) {
+	    debugger;
+	    ApiUtil.addToShelf(newShelf);
 	  }
 	};
 
@@ -31734,7 +31755,7 @@
 
 	ApiUtil = {
 
-	  sign_out: function () {
+	  signOut: function () {
 	    $.ajax({
 	      url: '/session/',
 	      type: 'POST',
@@ -31751,6 +31772,18 @@
 	      type: 'GET',
 	      success: function (books) {
 	        ApiActions.receiveAll(books);
+	      }
+	    });
+	  },
+
+	  addToShelf: function (shelf) {
+	    debugger;
+	    $.ajax({
+	      url: '/api/bookonshelves/',
+	      type: 'POST',
+	      data: { shelf: shelf },
+	      success: function (shelf) {
+	        ApiActions.updateShelf(shelf);
 	      }
 	    });
 	  }
@@ -31817,7 +31850,7 @@
 	          ),
 	          React.createElement(
 	            'li',
-	            { className: 'logout', onClick: UserActions.sign_out_session },
+	            { className: 'logout', onClick: UserActions.SignOutSession },
 	            'Log Out'
 	          )
 	        )
@@ -31843,15 +31876,13 @@
 
 
 	  getInitialState: function () {
-	    {
-	      bookshelf: "none";
-	    }
 	    if (BookStore.find(this.props.params.id) !== undefined) {
-	      return { book: BookStore.find(this.props.params.id)
+	      return { book: BookStore.find(this.props.params.id),
+	        bookshelf: "none"
 	      };
 	    } else {
 	      return { book: { id: "", volumeInfo: { title: "", authors: [],
-	            description: "", imageLinks: undefined } } };
+	            description: "", imageLinks: undefined } }, bookshelf: "none" };
 	    }
 	  },
 
@@ -31870,6 +31901,12 @@
 	  componentWillUnmount: function () {
 	    this.bookListener.remove();
 	  },
+
+	  wantToRead: function () {},
+
+	  currentlyReading: function () {},
+
+	  haveRead: function () {},
 
 	  render: function () {
 
@@ -31917,7 +31954,7 @@
 	        { className: 'bookDescription' },
 	        this.state.book.volumeInfo.description.replace(/(<([^>]+)>)/ig, "")
 	      ),
-	      React.createElement(BookshelfButton, null)
+	      React.createElement(BookshelfButton, { bookshelf: this.state.bookshelf })
 	    );
 	  }
 
@@ -31932,30 +31969,64 @@
 	var React = __webpack_require__(1);
 	var SplitButton = __webpack_require__(248).SplitButton;
 	var MenuItem = __webpack_require__(248).MenuItem;
+	var UserActions = __webpack_require__(243);
 
 	var ShelfButton = React.createClass({
 	  displayName: 'ShelfButton',
 
 
+	  getInitialState: function () {
+	    return { bookshelf: this.props.bookshelf, drops: [] };
+	  },
+
+	  componentWillMount: function () {
+	    this.determineDropdowns();
+	  },
+
+	  determineDropdowns: function () {
+	    if (this.state.bookshelf === "none") {
+	      this.state.button_default = "Want to Read";
+	      this.state.style = "notPressed";
+	      this.state.drops.push("Currently Reading");
+	      this.state.drops.push("Read");
+	    } else {
+	      this.state.style = "Pressed";
+	      if (this.state.bookshelf === "Want to Read") {
+	        this.state.button_default = "Want to Read";
+	        this.state.drops.push("Currently Reading");
+	        this.state.drops.push("Read");
+	      } else if (this.state.bookshelf === "Currently Reading") {
+	        this.state.button_default = "Currently Reading";
+	        this.state.drops.push("Want to Read");
+	        this.state.drops.push("Read");
+	      } else if (this.state.bookshelf === "Read") {
+	        this.state.button_default = "Read";
+	        this.state.drops.push("Want to Read");
+	        this.state.drops.push("Currently Reading");
+	      }
+	      this.state.drops.push("Remove from Shelves");
+	    };
+	  },
+
+	  handleClick: function (eventType) {
+	    debugger;
+	    UserActions.addToBookshelf(eventType.target.textContent);
+	  },
+
 	  render: function () {
+
+	    var menuItems = this.state.drops.map(function (drop, index) {
+	      return React.createElement(
+	        MenuItem,
+	        { key: index, onClick: this.handleClick, eventKey: '{index+2}' },
+	        drop
+	      );
+	    }.bind(this));
+
 	    return React.createElement(
 	      SplitButton,
-	      { bsStyle: "default", title: 'Test', id: 'whatever' },
-	      React.createElement(
-	        MenuItem,
-	        { eventKey: '1' },
-	        'Action'
-	      ),
-	      React.createElement(
-	        MenuItem,
-	        { eventKey: '2' },
-	        'Another action'
-	      ),
-	      React.createElement(
-	        MenuItem,
-	        { eventKey: '3' },
-	        'Something else here'
-	      )
+	      { bsStyle: "default", onClick: this.handleClick, title: this.state.button_default, eventKey: '1', id: 'whatever' },
+	      menuItems
 	    );
 	  }
 	});

@@ -12,8 +12,13 @@ UserActions = {
     GoogleApiUtil.fetchSingleBook(gid);
   },
 
-  sign_out_session: function () {
-    ApiUtil.sign_out();
+  SignOutSession: function () {
+    ApiUtil.signOut();
+  },
+
+  addToBookshelf: function (newShelf) {
+    debugger;
+    ApiUtil.addToShelf(newShelf);
   }
 }
 

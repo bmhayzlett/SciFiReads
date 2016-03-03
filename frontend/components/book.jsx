@@ -7,13 +7,13 @@ var BookshelfButton = require('./bookshelfButton');
 var Book = React.createClass({
 
   getInitialState: function () {
-    { bookshelf: "none"}
     if (BookStore.find(this.props.params.id) !== undefined) {
-      return { book: BookStore.find(this.props.params.id)
+      return { book: BookStore.find(this.props.params.id),
+        bookshelf: "none"
       };
     } else {
       return {book: {id: "", volumeInfo: {title: "", authors: [],
-        description: "", imageLinks: undefined}}};
+        description: "", imageLinks: undefined}}, bookshelf: "none"};
     }
   },
 
@@ -31,6 +31,18 @@ var Book = React.createClass({
 
   componentWillUnmount: function () {
     this.bookListener.remove();
+  },
+
+  wantToRead: function () {
+
+  },
+
+  currentlyReading: function () {
+
+  },
+
+  haveRead: function () {
+
   },
 
   render: function () {
@@ -57,7 +69,7 @@ var Book = React.createClass({
         <div className="bookTitle">{this.state.book.volumeInfo.title}</div>
         <ul className="bookAuthors">Author(s): {authors}</ul>
         <div className="bookDescription">{this.state.book.volumeInfo.description.replace(/(<([^>]+)>)/ig,"")}</div>
-        <BookshelfButton/>
+        <BookshelfButton bookshelf={this.state.bookshelf}/>
       </div>
 
     )

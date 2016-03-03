@@ -2,7 +2,7 @@ var ApiActions = require('../actions/api_actions.js');
 
 ApiUtil = {
 
-  sign_out: function () {
+  signOut: function () {
     $.ajax ({
       url: '/session/',
       type: 'POST',
@@ -21,6 +21,18 @@ ApiUtil = {
         ApiActions.receiveAll(books);
       }
     });
+  },
+
+  addToShelf: function (shelf) {
+    debugger;
+    $.ajax ({
+      url: '/api/bookonshelves/',
+      type: 'POST',
+      data: {shelf: shelf},
+      success: function (shelf){
+        ApiActions.updateShelf(shelf);
+      }
+    })
   }
 
 }

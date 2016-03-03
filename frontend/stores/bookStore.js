@@ -3,6 +3,7 @@ var Dispatcher = require('../dispatcher');
 var BookConstants = require('../constants/book_constants');
 
 var _books = {};
+var _shelf = "none"
 var BookStore = new Store(Dispatcher);
 
 BookStore.__onDispatch = function (payload) {
@@ -13,6 +14,10 @@ BookStore.__onDispatch = function (payload) {
       break;
     case BookConstants.BOOK_RECEIVED:
       resetBooks([payload.book])
+      BookStore.__emitChange();
+      break;
+    case BookConstants.SHELF_UPDATED:
+      resetShelf([payload.shelf])
       BookStore.__emitChange();
       break;
   }
@@ -32,6 +37,10 @@ BookStore.all = function() {
 BookStore.find = function (gid) {
   return _books[gid];
 };
+
+function resetShelf(shelf) {
+  _shelf = shelf
+}
 
 function resetBooks(books) {
   _books = {}

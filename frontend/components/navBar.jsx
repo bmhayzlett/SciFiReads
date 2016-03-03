@@ -25,7 +25,7 @@ var navBar = React.createClass({
             <li className="homeButton" onClick={home}>Home</li>
             <li className="myBooksButton">My Books</li>
             <li className="friendsButton">Friends</li>
-            <li className="logout" onClick={UserActions.sign_out_session}>Log Out</li>
+            <li className="logout" onClick={UserActions.SignOutSession}>Log Out</li>
           </ul>
         </div>
       </header>

@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :integer          not null, primary key
+#  username        :string           not null
+#  password_digest :string           not null
+#  session_token   :string           not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 class User < ActiveRecord::Base
 
   validates :username, :password_digest, :session_token, presence: true
@@ -7,7 +19,7 @@ class User < ActiveRecord::Base
   attr_reader :password
 
   has_many :bookshelves
-  has_many :book_on_shelves, through: :bookshelves, source: :bookshelf
+  has_many :book_on_shelves, through: :bookshelves, source: :book_on_shelves
   has_many :books, through: :book_on_shelves, source: :book
 
   after_initialize :ensure_session_token
