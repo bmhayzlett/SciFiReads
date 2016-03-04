@@ -21,18 +21,18 @@ class Book < ActiveRecord::Base
     book.id
   end
 
-  def self.find_users_books(user_id)
-    Book.find_by_sql([<<-SQL, {user_id: user_id}])
-      SELECT
-        bookshelves.shelf_name
-      FROM
-        books
-      JOIN
-        book_on_shelves ON books.id=book_on_shelves.book_id
-      JOIN
-        bookshelves ON bookshelves.id=book_on_shelves.shelf_id
-    SQL
-  end
+  # def self.find_users_books(user_id)
+  #   Book.find_by_sql([<<-SQL, {user_id: user_id}])
+  #     SELECT
+  #       bookshelves.shelf_name
+  #     FROM
+  #       books
+  #     JOIN
+  #       book_on_shelves ON books.id=book_on_shelves.book_id
+  #     JOIN
+  #       bookshelves ON bookshelves.id=book_on_shelves.shelf_id
+  #   SQL
+  # end
 
 
   # def sibling_books
