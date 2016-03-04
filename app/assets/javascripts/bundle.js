@@ -49044,9 +49044,9 @@
 	  displayName: 'Bookshelves',
 
 
-	  componentWillMount() {
-	    UserActions.fetchBookshelfBooks();
-	  },
+	  // componentWillMount() {
+	  //   UserActions.fetchBookshelfBooks();
+	  // },
 
 	  render: function () {
 
