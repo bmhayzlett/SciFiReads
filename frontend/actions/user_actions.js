@@ -26,6 +26,10 @@ UserActions = {
 
   fetchBookshelf: function(bookId) {
     ApiUtil.fetchBookshelf(bookId);
+  },
+
+  fetchBookshelfBooks: function() {
+    ApiUtil.fetchBookshelfBooks();
   }
 }
 

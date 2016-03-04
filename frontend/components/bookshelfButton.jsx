@@ -1,12 +1,13 @@
 var React = require('react');
-var SplitButton = require('react-bootstrap').SplitButton;
+var DropdownButton = require('react-bootstrap').DropdownButton;
 var MenuItem = require('react-bootstrap').MenuItem;
 var UserActions = require('../actions/user_actions');
 
 var ShelfButton = React.createClass({
 
   getInitialState: function () {
-    return {drops: [], button_default: "", style: "", bookshelf: "none"}
+    return {drops: [], button_default: "",
+      style: "default", bookshelf: "none"}
   },
 
   componentWillReceiveProps: function (nextProps) {
@@ -16,26 +17,26 @@ var ShelfButton = React.createClass({
   determineDropdowns: function (bookshelf) {
     this.state.drops = [];
     if (bookshelf === "none") {
-      this.setState({button_default: "Want to Read",
-        style: "notPressed",
-        drops: ["Currently Reading", "Read"],
+      this.setState({button_default: "Add to Bookshelf!",
+        style: "default",
+        drops: ["Want to Read", "Currently Reading", "Read"],
         bookshelf: bookshelf})
     } else {
       if (bookshelf === "Want to Read") {
         this.setState({button_default: "Want to Read",
-          style: "pressed",
+          style: "success",
           drops: ["Currently Reading", "Read",
             "Remove from Shelves"],
             bookshelf: bookshelf});
       } else if (bookshelf === "Currently Reading") {
         this.setState({button_default: "Currently Reading",
-          style: "pressed",
+          style: "success",
           drops: ["Want to Read", "Read",
             "Remove from Shelves"],
             bookshelf: bookshelf});
       } else if (bookshelf === "Read") {
         this.setState({button_default: "Read",
-          style: "pressed",
+          style: "success",
           drops: ["Want to Read", "Currently Reading",
             "Remove from Shelves"],
             bookshelf: bookshelf});
@@ -44,7 +45,7 @@ var ShelfButton = React.createClass({
   },
 
   handleClick: function (eventType) {
-    if (this.state.style === "notPressed") {
+    if (this.state.style === "default") {
       UserActions.addToBookshelf(eventType.target.textContent, this.props.bookId);
     } else {
       UserActions.changeBookshelf(eventType.target.textContent, this.props.bookId);
@@ -58,9 +59,10 @@ var ShelfButton = React.createClass({
     }.bind(this))
 
     return (
-      <SplitButton bsStyle={"default"} onClick={this.handleClick} title={this.state.button_default} eventKey="1" id="whatever">
+      <DropdownButton bsStyle={this.state.style}
+        title={this.state.button_default} eventKey="1" id="whatever">
         {menuItems}
-      </SplitButton>
+      </DropdownButton>
     )
   }
 });

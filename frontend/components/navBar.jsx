@@ -11,11 +11,11 @@ var navBar = React.createClass({
 
   render: function () {
     var home = function() {
-      this.props.history.push("/");
+      this.props.context.router.push("/");
     }.bind(this);
 
     var myBooks = function() {
-      this.props.history.push("/bookshelves");
+      this.props.context.router.push("/bookshelves");
     }.bind(this);
 
     return (

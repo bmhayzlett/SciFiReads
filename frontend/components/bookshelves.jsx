@@ -7,6 +7,10 @@ var UserActions = require('../actions/user_actions');
 
 var Bookshelves = React.createClass({
 
+  componentWillMount() {
+    UserActions.fetchBookshelfBooks();
+  },
+
   render: function () {
 
     return (

@@ -22,6 +22,13 @@ ApiActions = {
       actionType: BookConstants.SHELF_UPDATED,
       shelf: shelf
     });
+  },
+
+  updateShelvedBooks: function (shelvedBooks) {
+    AppDispatcher.dispatch({
+      actionType: BookConstants.BOOKSHELF_BOOKS_RECEIVED,
+      bookshelfBooks: bookshelfBooks
+    })
   }
 }
 

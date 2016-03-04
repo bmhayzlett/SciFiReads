@@ -38,7 +38,10 @@ class Api::BookonshelvesController < ApplicationController
     @book_id = Book.find_by(google_books_id: params[:google_book_id]).id
     @shelves = current_user.bookshelves
     @book_on_shelf = BookOnShelf.where(book_id: @book_id, shelf_id: @shelves)
-    @book_on_shelf.first.destroy!
+
+    if @book_on_shelf
+      @book_on_shelf.first.destroy!
+    end
 
     if params[:shelf] == "Remove from Shelves"
       render json: {shelf_name: "none"}
@@ -54,6 +57,8 @@ class Api::BookonshelvesController < ApplicationController
   end
 
   def index
+    @books = Book.find_users_books(current_user.id)
+    debugger
   end
 
 end

@@ -4,10 +4,18 @@ var NavBar = require('./navBar');
 
 var Core = React.createClass ({
 
+  contextTypes: {
+      router: React.PropTypes.object.isRequired
+  },
+
+  componentDidMount: function () {
+    
+  },
+
   render: function () {
     return (
       <div>
-        <NavBar history={this.props.history}/>
+        <NavBar context={this.context}/>
         {this.props.children}
       </div>
     )

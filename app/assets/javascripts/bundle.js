@@ -24714,11 +24714,17 @@
 	  displayName: 'Core',
 
 
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+
+	  componentDidMount: function () {},
+
 	  render: function () {
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(NavBar, { history: this.props.history }),
+	      React.createElement(NavBar, { context: this.context }),
 	      this.props.children
 	    );
 	  }
@@ -31650,7 +31656,8 @@
 	BookConstants = {
 	  BOOKS_RECEIVED: "BOOKS_RECEIVED",
 	  BOOK_RECEIVED: "BOOK_RECEIVED",
-	  SHELF_UPDATED: "SHELF_UPDATED"
+	  SHELF_UPDATED: "SHELF_UPDATED",
+	  BOOKSHELF_BOOKS_RECEIVED: "BOOKSHELF_BOOKS_RECEIVED"
 	};
 
 	module.exports = BookConstants;
@@ -31716,6 +31723,13 @@
 	      actionType: BookConstants.SHELF_UPDATED,
 	      shelf: shelf
 	    });
+	  },
+
+	  updateShelvedBooks: function (shelvedBooks) {
+	    AppDispatcher.dispatch({
+	      actionType: BookConstants.BOOKSHELF_BOOKS_RECEIVED,
+	      bookshelfBooks: bookshelfBooks
+	    });
 	  }
 	};
 
@@ -31753,6 +31767,10 @@
 
 	  fetchBookshelf: function (bookId) {
 	    ApiUtil.fetchBookshelf(bookId);
+	  },
+
+	  fetchBookshelfBooks: function () {
+	    ApiUtil.fetchBookshelfBooks();
 	  }
 	};
 
@@ -31808,6 +31826,14 @@
 	        ApiActions.updateShelf(shelf);
 	      }
 	    });
+	  },
+
+	  fetchBookshelfBooks: function () {
+	    $.ajax({
+	      url: '/api/bookonshelves',
+	      type: 'GET',
+	      success: function (shelvedBooks) {}
+	    });
 	  }
 
 	};
@@ -31835,11 +31861,11 @@
 
 	  render: function () {
 	    var home = function () {
-	      this.props.history.push("/");
+	      this.props.context.router.push("/");
 	    }.bind(this);
 
 	    var myBooks = function () {
-	      this.props.history.push("/bookshelves");
+	      this.props.context.router.push("/bookshelves");
 	    }.bind(this);
 
 	    return React.createElement(
@@ -31980,7 +32006,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SplitButton = __webpack_require__(248).SplitButton;
+	var DropdownButton = __webpack_require__(248).DropdownButton;
 	var MenuItem = __webpack_require__(248).MenuItem;
 	var UserActions = __webpack_require__(243);
 
@@ -31989,7 +32015,8 @@
 
 
 	  getInitialState: function () {
-	    return { drops: [], button_default: "", style: "", bookshelf: "none" };
+	    return { drops: [], button_default: "",
+	      style: "default", bookshelf: "none" };
 	  },
 
 	  componentWillReceiveProps: function (nextProps) {
@@ -31999,24 +32026,24 @@
 	  determineDropdowns: function (bookshelf) {
 	    this.state.drops = [];
 	    if (bookshelf === "none") {
-	      this.setState({ button_default: "Want to Read",
-	        style: "notPressed",
-	        drops: ["Currently Reading", "Read"],
+	      this.setState({ button_default: "Add to Bookshelf!",
+	        style: "default",
+	        drops: ["Want to Read", "Currently Reading", "Read"],
 	        bookshelf: bookshelf });
 	    } else {
 	      if (bookshelf === "Want to Read") {
 	        this.setState({ button_default: "Want to Read",
-	          style: "pressed",
+	          style: "success",
 	          drops: ["Currently Reading", "Read", "Remove from Shelves"],
 	          bookshelf: bookshelf });
 	      } else if (bookshelf === "Currently Reading") {
 	        this.setState({ button_default: "Currently Reading",
-	          style: "pressed",
+	          style: "success",
 	          drops: ["Want to Read", "Read", "Remove from Shelves"],
 	          bookshelf: bookshelf });
 	      } else if (bookshelf === "Read") {
 	        this.setState({ button_default: "Read",
-	          style: "pressed",
+	          style: "success",
 	          drops: ["Want to Read", "Currently Reading", "Remove from Shelves"],
 	          bookshelf: bookshelf });
 	      }
@@ -32024,7 +32051,7 @@
 	  },
 
 	  handleClick: function (eventType) {
-	    if (this.state.style === "notPressed") {
+	    if (this.state.style === "default") {
 	      UserActions.addToBookshelf(eventType.target.textContent, this.props.bookId);
 	    } else {
 	      UserActions.changeBookshelf(eventType.target.textContent, this.props.bookId);
@@ -32042,8 +32069,9 @@
 	    }.bind(this));
 
 	    return React.createElement(
-	      SplitButton,
-	      { bsStyle: "default", onClick: this.handleClick, title: this.state.button_default, eventKey: '1', id: 'whatever' },
+	      DropdownButton,
+	      { bsStyle: this.state.style,
+	        title: this.state.button_default, eventKey: '1', id: 'whatever' },
 	      menuItems
 	    );
 	  }
@@ -49015,6 +49043,10 @@
 	var Bookshelves = React.createClass({
 	  displayName: 'Bookshelves',
 
+
+	  componentWillMount() {
+	    UserActions.fetchBookshelfBooks();
+	  },
 
 	  render: function () {
 

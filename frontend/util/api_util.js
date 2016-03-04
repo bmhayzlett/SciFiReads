@@ -44,6 +44,16 @@ ApiUtil = {
         ApiActions.updateShelf(shelf);
       }
     })
+  },
+
+  fetchBookshelfBooks: function () {
+    $.ajax({
+      url: '/api/bookonshelves',
+      type: 'GET',
+      success: function (shelvedBooks) {
+
+      }
+    })
   }
 
 }
