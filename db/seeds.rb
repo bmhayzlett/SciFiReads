@@ -19,7 +19,7 @@
   Bookshelf.create!(user_id: i, shelf_name: "Want to Read")
   Bookshelf.create!(user_id: i, shelf_name: "Currently Reading")
   Bookshelf.create!(user_id: i, shelf_name: "Read")
-  Book.create!(google_books_id: Faker::Book.title)
+  Book.create!(google_books_id: Faker::Name.name)
   BookOnShelf.create!(shelf_id: 3*i,
     book_id: i)
 end

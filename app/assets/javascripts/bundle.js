@@ -54,17 +54,16 @@
 	var Link = __webpack_require__(159).Link;
 
 	var Core = __webpack_require__(216);
-	var ApiUtil = __webpack_require__(244);
-	var BookStore = __webpack_require__(218);
 	var BookIndex = __webpack_require__(217);
 	var Book = __webpack_require__(246);
-	var BookshelfButton = __webpack_require__(247);
+	var Bookshelves = __webpack_require__(490);
 
 	var EntryRouter = React.createElement(
 	  Route,
 	  { path: '/', component: Core },
 	  React.createElement(IndexRoute, { component: BookIndex }),
-	  React.createElement(Route, { path: '/books/:id', component: Book })
+	  React.createElement(Route, { path: '/books/:id', component: Book }),
+	  React.createElement(Route, { path: '/bookshelves', component: Bookshelves })
 	);
 
 	document.addEventListener('DOMContentLoaded', function () {
@@ -24719,7 +24718,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(NavBar, null),
+	      React.createElement(NavBar, { history: this.props.history }),
 	      this.props.children
 	    );
 	  }
@@ -24762,7 +24761,6 @@
 	  },
 
 	  render: function () {
-
 	    var bookList = this.state.books.map(function (book, index1) {
 	      var authors = book.volumeInfo.authors.map(function (author, index2) {
 	        return React.createElement(
@@ -24830,6 +24828,7 @@
 	var BookConstants = __webpack_require__(240);
 
 	var _books = {};
+	// TODO: check database for shelf
 	var _shelf = "none";
 	var BookStore = new Store(Dispatcher);
 
@@ -24844,7 +24843,7 @@
 	      BookStore.__emitChange();
 	      break;
 	    case BookConstants.SHELF_UPDATED:
-	      resetShelf([payload.shelf]);
+	      resetShelf([payload.shelf.shelf_name]);
 	      BookStore.__emitChange();
 	      break;
 	  }
@@ -24864,8 +24863,12 @@
 	  return _books[gid];
 	};
 
+	BookStore.shelf = function () {
+	  return _shelf;
+	};
+
 	function resetShelf(shelf) {
-	  _shelf = shelf;
+	  _shelf = shelf[0];
 	}
 
 	function resetBooks(books) {
@@ -31670,11 +31673,12 @@
 	    });
 	  },
 
-	  fetchSingleBook: function (gBookId) {
+	  fetchSingleBook: function (gBookId, callback) {
 	    $.ajax({
 	      url: 'https://www.googleapis.com/books/v1/volumes/' + gBookId + '?key=' + window.keys + '&fields=id,volumeInfo(title,authors,description,imageLinks)',
 	      type: 'GET',
 	      success: function (book) {
+	        callback(gBookId);
 	        ApiActions.receiveSingleBook(book);
 	      }
 	    });
@@ -31731,17 +31735,24 @@
 	    GoogleApiUtil.fetchBooks(searchTerms);
 	  },
 
-	  fetchSingleGoogleBook: function (gid) {
-	    GoogleApiUtil.fetchSingleBook(gid);
+	  fetchSingleGoogleBook: function (gid, callback) {
+	    GoogleApiUtil.fetchSingleBook(gid, callback);
 	  },
 
 	  SignOutSession: function () {
 	    ApiUtil.signOut();
 	  },
 
-	  addToBookshelf: function (newShelf) {
-	    debugger;
-	    ApiUtil.addToShelf(newShelf);
+	  addToBookshelf: function (newShelf, bookId) {
+	    ApiUtil.addToShelf(newShelf, bookId);
+	  },
+
+	  changeBookshelf: function (newShelf, bookId) {
+	    ApiUtil.changeBookshelf(newShelf, bookId);
+	  },
+
+	  fetchBookshelf: function (bookId) {
+	    ApiUtil.fetchBookshelf(bookId);
 	  }
 	};
 
@@ -31766,22 +31777,33 @@
 	    });
 	  },
 
-	  fetchBooks: function () {
+	  addToShelf: function (shelf, bookId) {
 	    $.ajax({
-	      url: '/api/books',
-	      type: 'GET',
-	      success: function (books) {
-	        ApiActions.receiveAll(books);
+	      url: '/api/bookonshelves',
+	      type: 'POST',
+	      data: { shelf: shelf, google_book_id: bookId },
+	      success: function (shelf) {
+	        ApiActions.updateShelf(shelf);
 	      }
 	    });
 	  },
 
-	  addToShelf: function (shelf) {
-	    debugger;
+	  fetchBookshelf: function (bookId) {
 	    $.ajax({
-	      url: '/api/bookonshelves/',
+	      url: '/api/bookonshelf',
+	      type: 'GET',
+	      data: { book_id: bookId },
+	      success: function (shelf) {
+	        ApiActions.updateShelf(shelf);
+	      }
+	    });
+	  },
+
+	  changeBookshelf: function (shelf, bookId) {
+	    $.ajax({
+	      url: '/api/bookonshelf',
 	      type: 'POST',
-	      data: { shelf: shelf },
+	      data: { '_method': 'patch', shelf: shelf, google_book_id: bookId },
 	      success: function (shelf) {
 	        ApiActions.updateShelf(shelf);
 	      }
@@ -31799,6 +31821,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
 	var UserActions = __webpack_require__(243);
 
 	var navBar = React.createClass({
@@ -31810,10 +31833,13 @@
 	    UserActions.fetchGoogleBooks(query);
 	  },
 
-	  // TODO: change this functionality to Link to...
 	  render: function () {
-	    var home = function (e) {
-	      window.location = "/#/";
+	    var home = function () {
+	      this.props.history.push("/");
+	    }.bind(this);
+
+	    var myBooks = function () {
+	      this.props.history.push("/bookshelves");
 	    }.bind(this);
 
 	    return React.createElement(
@@ -31827,9 +31853,9 @@
 	          { id: 'SciFiReads', className: 'SciFiReads', onClick: home },
 	          'SciFiReads'
 	        ),
-	        React.createElement('input', { type: 'text', ref: 'searchInput', placeholder: 'Search Books',
+	        React.createElement('input', { type: 'text', ref: 'searchInput', placeholder: 'Search All Books',
 	          value: this.props.query, onChange: this.doSearch,
-	          className: 'searchBar' }),
+	          onFocus: home, className: 'searchBar' }),
 	        React.createElement(
 	          'ul',
 	          { className: 'navLinks' },
@@ -31840,13 +31866,8 @@
 	          ),
 	          React.createElement(
 	            'li',
-	            { className: 'myBooksButton' },
+	            { className: 'myBooksButton', onClick: myBooks },
 	            'My Books'
-	          ),
-	          React.createElement(
-	            'li',
-	            { className: 'friendsButton' },
-	            'Friends'
 	          ),
 	          React.createElement(
 	            'li',
@@ -31887,26 +31908,18 @@
 	  },
 
 	  componentWillMount: function () {
-	    UserActions.fetchSingleGoogleBook(this.props.params.id);
+	    UserActions.fetchSingleGoogleBook(this.props.params.id, UserActions.fetchBookshelf);
+	    this.bookListener = BookStore.addListener(this._onChange);
 	  },
 
 	  _onChange: function () {
-	    this.setState({ book: BookStore.find(this.props.params.id) });
-	  },
-
-	  componentDidMount: function () {
-	    this.bookListener = BookStore.addListener(this._onChange);
+	    this.setState({ book: BookStore.find(this.props.params.id),
+	      bookshelf: BookStore.shelf() });
 	  },
 
 	  componentWillUnmount: function () {
 	    this.bookListener.remove();
 	  },
-
-	  wantToRead: function () {},
-
-	  currentlyReading: function () {},
-
-	  haveRead: function () {},
 
 	  render: function () {
 
@@ -31954,7 +31967,7 @@
 	        { className: 'bookDescription' },
 	        this.state.book.volumeInfo.description.replace(/(<([^>]+)>)/ig, "")
 	      ),
-	      React.createElement(BookshelfButton, { bookshelf: this.state.bookshelf })
+	      React.createElement(BookshelfButton, { bookshelf: this.state.bookshelf, bookId: this.state.book.id })
 	    );
 	  }
 
@@ -31976,41 +31989,46 @@
 
 
 	  getInitialState: function () {
-	    return { bookshelf: this.props.bookshelf, drops: [] };
+	    return { drops: [], button_default: "", style: "", bookshelf: "none" };
 	  },
 
-	  componentWillMount: function () {
-	    this.determineDropdowns();
+	  componentWillReceiveProps: function (nextProps) {
+	    this.determineDropdowns(nextProps.bookshelf);
 	  },
 
-	  determineDropdowns: function () {
-	    if (this.state.bookshelf === "none") {
-	      this.state.button_default = "Want to Read";
-	      this.state.style = "notPressed";
-	      this.state.drops.push("Currently Reading");
-	      this.state.drops.push("Read");
+	  determineDropdowns: function (bookshelf) {
+	    this.state.drops = [];
+	    if (bookshelf === "none") {
+	      this.setState({ button_default: "Want to Read",
+	        style: "notPressed",
+	        drops: ["Currently Reading", "Read"],
+	        bookshelf: bookshelf });
 	    } else {
-	      this.state.style = "Pressed";
-	      if (this.state.bookshelf === "Want to Read") {
-	        this.state.button_default = "Want to Read";
-	        this.state.drops.push("Currently Reading");
-	        this.state.drops.push("Read");
-	      } else if (this.state.bookshelf === "Currently Reading") {
-	        this.state.button_default = "Currently Reading";
-	        this.state.drops.push("Want to Read");
-	        this.state.drops.push("Read");
-	      } else if (this.state.bookshelf === "Read") {
-	        this.state.button_default = "Read";
-	        this.state.drops.push("Want to Read");
-	        this.state.drops.push("Currently Reading");
+	      if (bookshelf === "Want to Read") {
+	        this.setState({ button_default: "Want to Read",
+	          style: "pressed",
+	          drops: ["Currently Reading", "Read", "Remove from Shelves"],
+	          bookshelf: bookshelf });
+	      } else if (bookshelf === "Currently Reading") {
+	        this.setState({ button_default: "Currently Reading",
+	          style: "pressed",
+	          drops: ["Want to Read", "Read", "Remove from Shelves"],
+	          bookshelf: bookshelf });
+	      } else if (bookshelf === "Read") {
+	        this.setState({ button_default: "Read",
+	          style: "pressed",
+	          drops: ["Want to Read", "Currently Reading", "Remove from Shelves"],
+	          bookshelf: bookshelf });
 	      }
-	      this.state.drops.push("Remove from Shelves");
 	    };
 	  },
 
 	  handleClick: function (eventType) {
-	    debugger;
-	    UserActions.addToBookshelf(eventType.target.textContent);
+	    if (this.state.style === "notPressed") {
+	      UserActions.addToBookshelf(eventType.target.textContent, this.props.bookId);
+	    } else {
+	      UserActions.changeBookshelf(eventType.target.textContent, this.props.bookId);
+	    }
 	  },
 
 	  render: function () {
@@ -48982,6 +49000,88 @@
 
 	exports['default'] = Well;
 	module.exports = exports['default'];
+
+/***/ },
+/* 490 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var BookshelfIndex = __webpack_require__(491);
+	var BookshelfSidebar = __webpack_require__(492);
+
+	var GoogleApiUtil = __webpack_require__(241);
+	var UserActions = __webpack_require__(243);
+
+	var Bookshelves = React.createClass({
+	  displayName: 'Bookshelves',
+
+
+	  render: function () {
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      'TESTTESTTESTTEST',
+	      React.createElement(BookshelfIndex, null),
+	      React.createElement(BookshelfSidebar, null)
+	    );
+	  }
+
+	});
+
+	module.exports = Bookshelves;
+
+/***/ },
+/* 491 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var GoogleApiUtil = __webpack_require__(241);
+	var UserActions = __webpack_require__(243);
+
+	var BookshelfIndex = React.createClass({
+	  displayName: 'BookshelfIndex',
+
+
+	  render: function () {
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      'BOOKSHELF INDEX TEST'
+	    );
+	  }
+
+	});
+
+	module.exports = BookshelfIndex;
+
+/***/ },
+/* 492 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var GoogleApiUtil = __webpack_require__(241);
+	var UserActions = __webpack_require__(243);
+
+	var BookshelfSidebar = React.createClass({
+	  displayName: 'BookshelfSidebar',
+
+
+	  render: function () {
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      'BOOKSHELF SIDEBAR TEST'
+	    );
+	  }
+
+	});
+
+	module.exports = BookshelfSidebar;
 
 /***/ }
 /******/ ]);

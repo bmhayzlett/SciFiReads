@@ -8,16 +8,16 @@ var IndexRoute = require('react-router').IndexRoute;
 var Link = require('react-router').Link;
 
 var Core = require('./components/core');
-var ApiUtil = require('./util/api_util')
-var BookStore = require('./stores/bookStore');
 var BookIndex = require('./components/bookIndex');
 var Book = require('./components/book');
-var BookshelfButton = require('./components/bookshelfButton');
+var Bookshelves = require('./components/bookshelves');
 
 var EntryRouter = (
     <Route path="/" component={Core}>
       <IndexRoute component={BookIndex} />
       <Route path="/books/:id" component={Book}/>
+      <Route path="/bookshelves" component={Bookshelves}/>
+
     </Route>
 );
 

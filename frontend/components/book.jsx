@@ -18,31 +18,18 @@ var Book = React.createClass({
   },
 
   componentWillMount: function () {
-    UserActions.fetchSingleGoogleBook(this.props.params.id)
+    UserActions.fetchSingleGoogleBook(this.props.params.id,
+      UserActions.fetchBookshelf);
+    this.bookListener = BookStore.addListener(this._onChange);
   },
 
   _onChange: function () {
-    this.setState({book: BookStore.find(this.props.params.id)});
-  },
-
-  componentDidMount: function () {
-    this.bookListener = BookStore.addListener(this._onChange);
+    this.setState({book: BookStore.find(this.props.params.id),
+      bookshelf: BookStore.shelf()});
   },
 
   componentWillUnmount: function () {
     this.bookListener.remove();
-  },
-
-  wantToRead: function () {
-
-  },
-
-  currentlyReading: function () {
-
-  },
-
-  haveRead: function () {
-
   },
 
   render: function () {
@@ -69,7 +56,7 @@ var Book = React.createClass({
         <div className="bookTitle">{this.state.book.volumeInfo.title}</div>
         <ul className="bookAuthors">Author(s): {authors}</ul>
         <div className="bookDescription">{this.state.book.volumeInfo.description.replace(/(<([^>]+)>)/ig,"")}</div>
-        <BookshelfButton bookshelf={this.state.bookshelf}/>
+        <BookshelfButton bookshelf={this.state.bookshelf} bookId={this.state.book.id}/>
       </div>
 
     )

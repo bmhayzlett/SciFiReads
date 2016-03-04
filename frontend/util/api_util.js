@@ -13,23 +13,34 @@ ApiUtil = {
     })
   },
 
-  fetchBooks: function () {
+  addToShelf: function (shelf, bookId) {
     $.ajax ({
-      url: '/api/books',
-      type: 'GET',
-      success: function (books){
-        ApiActions.receiveAll(books);
+      url: '/api/bookonshelves',
+      type: 'POST',
+      data: {shelf: shelf, google_book_id: bookId},
+      success: function (shelf){
+        ApiActions.updateShelf(shelf);
       }
-    });
+    })
   },
 
-  addToShelf: function (shelf) {
-    debugger;
+  fetchBookshelf: function (bookId) {
     $.ajax ({
-      url: '/api/bookonshelves/',
-      type: 'POST',
-      data: {shelf: shelf},
+      url: '/api/bookonshelf',
+      type: 'GET',
+      data: {book_id: bookId},
       success: function (shelf){
+        ApiActions.updateShelf(shelf);
+      }
+    })
+  },
+
+  changeBookshelf: function (shelf, bookId) {
+    $.ajax({
+      url: '/api/bookonshelf',
+      type: 'POST',
+      data: {'_method': 'patch', shelf: shelf, google_book_id: bookId},
+      success: function (shelf) {
         ApiActions.updateShelf(shelf);
       }
     })

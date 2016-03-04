@@ -15,13 +15,14 @@ GoogleApiUtil = {
     });
   },
 
-  fetchSingleBook: function (gBookId) {
+  fetchSingleBook: function (gBookId, callback) {
     $.ajax ({
       url: 'https://www.googleapis.com/books/v1/volumes/' + gBookId +
         '?key=' + window.keys +
         '&fields=id,volumeInfo(title,authors,description,imageLinks)',
       type: 'GET',
       success: function (book){
+        callback(gBookId);
         ApiActions.receiveSingleBook(book);
       }
     });

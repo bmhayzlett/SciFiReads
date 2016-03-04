@@ -15,4 +15,10 @@ class Book < ActiveRecord::Base
   has_many :bookshelves, through: :book_on_shelves, source: :bookshelf
   has_many :users, through: :bookshelves, source: :user
 
+  def self.find_by_id(book_id)
+    book = Book.find_by(google_books_id: book_id)
+    return nil unless book
+    book.id
+  end
+
 end

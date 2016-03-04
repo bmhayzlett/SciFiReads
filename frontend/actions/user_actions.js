@@ -8,17 +8,24 @@ UserActions = {
     GoogleApiUtil.fetchBooks(searchTerms);
   },
 
-  fetchSingleGoogleBook: function(gid){
-    GoogleApiUtil.fetchSingleBook(gid);
+  fetchSingleGoogleBook: function(gid, callback){
+    GoogleApiUtil.fetchSingleBook(gid, callback);
   },
 
   SignOutSession: function () {
     ApiUtil.signOut();
   },
 
-  addToBookshelf: function (newShelf) {
-    debugger;
-    ApiUtil.addToShelf(newShelf);
+  addToBookshelf: function (newShelf, bookId) {
+    ApiUtil.addToShelf(newShelf, bookId);
+  },
+
+  changeBookshelf: function (newShelf, bookId) {
+    ApiUtil.changeBookshelf(newShelf, bookId);
+  },
+
+  fetchBookshelf: function(bookId) {
+    ApiUtil.fetchBookshelf(bookId);
   }
 }
 

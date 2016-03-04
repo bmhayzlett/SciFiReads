@@ -26,7 +26,6 @@ var bookIndex = React.createClass({
   },
 
   render: function () {
-
     var bookList = this.state.books.map(function (book, index1) {
       var authors = book.volumeInfo.authors.map(function (author, index2) {
         return <li key={index2}>{author}</li>

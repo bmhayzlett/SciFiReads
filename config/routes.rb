@@ -7,7 +7,8 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
     resources :books, only: [:index, :show]
-    resources :bookonshelves, only: [:show, :create, :update, :destroy]
+    resource :bookonshelf, only: [:show, :update]
+    resources :bookonshelves, only: [:index, :create]
   end
 
 end

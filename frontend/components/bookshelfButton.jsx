@@ -6,41 +6,49 @@ var UserActions = require('../actions/user_actions');
 var ShelfButton = React.createClass({
 
   getInitialState: function () {
-    return {bookshelf: this.props.bookshelf, drops: []}
+    return {drops: [], button_default: "", style: "", bookshelf: "none"}
   },
 
-  componentWillMount: function () {
-    this.determineDropdowns();
+  componentWillReceiveProps: function (nextProps) {
+    this.determineDropdowns(nextProps.bookshelf);
   },
 
-  determineDropdowns: function () {
-    if (this.state.bookshelf === "none") {
-      this.state.button_default = "Want to Read";
-      this.state.style = "notPressed";
-      this.state.drops.push("Currently Reading");
-      this.state.drops.push("Read");
+  determineDropdowns: function (bookshelf) {
+    this.state.drops = [];
+    if (bookshelf === "none") {
+      this.setState({button_default: "Want to Read",
+        style: "notPressed",
+        drops: ["Currently Reading", "Read"],
+        bookshelf: bookshelf})
     } else {
-      this.state.style = "Pressed"
-      if (this.state.bookshelf === "Want to Read") {
-        this.state.button_default = "Want to Read";
-        this.state.drops.push("Currently Reading");
-        this.state.drops.push("Read");
-      } else if (this.state.bookshelf === "Currently Reading") {
-        this.state.button_default = "Currently Reading"
-        this.state.drops.push("Want to Read");
-        this.state.drops.push("Read");
-      } else if (this.state.bookshelf === "Read") {
-        this.state.button_default = "Read";
-        this.state.drops.push("Want to Read");
-        this.state.drops.push("Currently Reading");
+      if (bookshelf === "Want to Read") {
+        this.setState({button_default: "Want to Read",
+          style: "pressed",
+          drops: ["Currently Reading", "Read",
+            "Remove from Shelves"],
+            bookshelf: bookshelf});
+      } else if (bookshelf === "Currently Reading") {
+        this.setState({button_default: "Currently Reading",
+          style: "pressed",
+          drops: ["Want to Read", "Read",
+            "Remove from Shelves"],
+            bookshelf: bookshelf});
+      } else if (bookshelf === "Read") {
+        this.setState({button_default: "Read",
+          style: "pressed",
+          drops: ["Want to Read", "Currently Reading",
+            "Remove from Shelves"],
+            bookshelf: bookshelf});
       }
-      this.state.drops.push("Remove from Shelves");
     };
   },
 
   handleClick: function (eventType) {
-    debugger;
-    UserActions.addToBookshelf(eventType.target.textContent);
+    if (this.state.style === "notPressed") {
+      UserActions.addToBookshelf(eventType.target.textContent, this.props.bookId);
+    } else {
+      UserActions.changeBookshelf(eventType.target.textContent, this.props.bookId);
+    }
   },
 
   render: function () {
