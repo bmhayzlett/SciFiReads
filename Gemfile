@@ -32,6 +32,7 @@ gem 'figaro'
 
 #gemfile for Heroku deployment
 gem 'newrelic_rpm'
+gem 'rails_12factor'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
