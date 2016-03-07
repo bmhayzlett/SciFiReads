@@ -32,8 +32,8 @@
     <div class ="new_left_sub_text">
       <form action="<%= session_url %>" method="post">
         <%= auth_token_input %>
-        <input type="hidden" name="user[username]" value="guest"/>
-        <input type="hidden" name="user[password]" value="guests"/>
+        <input type="hidden" name="user[username]" value="allguests"/>
+        <input type="hidden" name="user[password]" value="allguests"/>
         <input type="submit" value="Sign in as Guest">
       </form>
     </div>
