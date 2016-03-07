@@ -58,7 +58,7 @@ class Api::BookonshelvesController < ApplicationController
 
   def index
     @books = Book.find_users_books(current_user.id)
-    debugger
+    render json: {bookshelf_books: @books}
   end
 
 end

@@ -27,6 +27,7 @@
   right: 30%;
   left: 30%;
   background-color: rgba(0, 0, 0, .75);
+  font-family: 'Orbitron', sans-serif;
 }
 
 .sign_type {
@@ -40,12 +41,19 @@
   flex-direction: column;
   align-content: center;
   justify-content: center;
+  align-items: center;
 }
 
 .new_submission {
   display: flex;
   justify-content: center;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
+}
+
+.new_submission_button {
+  display: flex;
+  justify-content: center;
+  width: 100px;
 }
 
 .text_input {

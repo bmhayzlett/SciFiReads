@@ -11,6 +11,7 @@ var navBar = React.createClass({
 
   render: function () {
     var home = function() {
+      UserActions.fetchGoogleBooks("");
       this.props.context.router.push("/");
     }.bind(this);
 

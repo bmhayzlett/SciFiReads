@@ -24,17 +24,23 @@
       <input type="password" class="text_input" name="user[password]" value="">
     </label>
 
-    <input type="submit"  class="new_submission" value="<%= sign_type %>">
+    <input type="submit"  class="new_submission_button" value="<%= sign_type %>">
 
   </form>
 
   <div class="new_sub_text">
     <div class ="new_left_sub_text">
-      Sign in as Guest
+      <form action="<%= session_url %>" method="post">
+        <%= auth_token_input %>
+        <input type="hidden" name="user[username]" value="guest"/>
+        <input type="hidden" name="user[password]" value="guests"/>
+        <input type="submit" value="Sign in as Guest">
+      </form>
     </div>
 
     <div class="new_right_sub_text">
       <%= link_to link_to_text, opposite_form_action %>
+
     </div>
   </div>
 

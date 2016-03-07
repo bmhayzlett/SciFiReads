@@ -50,6 +50,7 @@ var ShelfButton = React.createClass({
     } else {
       UserActions.changeBookshelf(eventType.target.textContent, this.props.bookId);
     }
+    UserActions.fetchBookshelfBooks();
   },
 
   render: function () {

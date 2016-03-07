@@ -3,6 +3,7 @@
   background: black;
   border-bottom: 2px solid #0F0;
   height: 60px;
+  font-family: 'Orbitron', sans-serif;
 }
 
 .navBar {
@@ -17,6 +18,10 @@
   display: inline-block;
 }
 
+.SciFiReads:hover {
+  cursor: pointer;
+}
+
 #SciFiReads:after {
   visibility: hidden;
   content: '';
@@ -24,6 +29,11 @@
   position: relative;
   top: 5px;
   height: 1em;
+}
+
+.searchBar {
+  margin-left: 200px;
+  background-color: #282828
 }
 
 .navLinks {
@@ -43,4 +53,8 @@
   padding-right: 10px;
   display: flex;
   align-items: center;
+}
+
+.navLinks > li:hover {
+  cursor: pointer;
 }

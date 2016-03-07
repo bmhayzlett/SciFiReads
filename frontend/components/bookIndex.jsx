@@ -13,12 +13,12 @@ var bookIndex = React.createClass({
 
   componentDidMount: function () {
     this.bookIndexToken = BookStore.addListener(this._onChange);
-    // Add action for fetching books, call
-    UserActions.fetchGoogleBooks("1984");
+    this.shelfIndexToken = ShelfStore.addListener(this._onChange);
   },
 
   componentWillUnmount: function () {
     this.bookIndexToken.remove();
+    this.shelfIndexToken.remove();
   },
 
   _onChange: function () {
@@ -52,8 +52,8 @@ var bookIndex = React.createClass({
     });
 
     return (
-      <div className="bookList">
-        <ul>
+      <div>
+        <ul className="bookList">
           {bookList}
         </ul>
       </div>

@@ -51,7 +51,7 @@ ApiUtil = {
       url: '/api/bookonshelves',
       type: 'GET',
       success: function (shelvedBooks) {
-
+        ApiActions.updateShelvedBooks(shelvedBooks);
       }
     })
   }

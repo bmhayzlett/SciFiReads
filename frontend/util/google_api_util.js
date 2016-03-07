@@ -7,7 +7,7 @@ GoogleApiUtil = {
       url: 'https://www.googleapis.com/books/v1/volumes?' +
         'q=subject:"Fiction+Science+Fiction"' + searchItems +
         '&fields=items(id,volumeInfo(title,authors,description,imageLinks))' +
-        '&key=' + window.keys,
+        '&key=' + window.keys + '&maxResults=40',
       type: 'GET',
       success: function (books){
         ApiActions.receiveAll(books);
@@ -26,8 +26,33 @@ GoogleApiUtil = {
         ApiActions.receiveSingleBook(book);
       }
     });
+  },
+
+  fetchMultipleBooks: function (bookArray) {
+    requestedBooks = [];
+    bookArray.forEach(function(book) {
+      $.ajax ({
+        url: 'https://www.googleapis.com/books/v1/volumes/' +
+          book +
+          '?key=' + window.keys +
+          '&fields=id,volumeInfo(title,authors,description,imageLinks)' +
+          '&maxResults=40',
+        type: 'GET',
+        success: function (book){
+          requestedBooks.push(book)
+          if (requestedBooks.length === bookArray.length) {
+            ApiActions.receiveAll({items: requestedBooks});
+          }
+        },
+        error: function () {
+          console.log("error fetching")
+        }
+      });
+    })
   }
 
 }
 
 module.exports = GoogleApiUtil;
+
+window.GoogleApiUtil = GoogleApiUtil;

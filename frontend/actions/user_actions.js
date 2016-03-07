@@ -30,6 +30,17 @@ UserActions = {
 
   fetchBookshelfBooks: function() {
     ApiUtil.fetchBookshelfBooks();
+  },
+
+  fetchMultiGoogleBooks: function (bookArray) {
+    if (bookArray.length > 0) {
+      GoogleApiUtil.fetchMultipleBooks(bookArray)
+    } else {
+      AppDispatcher.dispatch({
+        actionType: BookConstants.BOOKS_RECEIVED,
+        books: {items: []}
+      });
+    }
   }
 }
 

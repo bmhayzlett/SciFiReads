@@ -1,3 +1,16 @@
-.bookList {
+.bookIndexItem {
+  display: inline-flex;
+  height: 300px;
+  width: 239px;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  margin: 5px;
+  background-color: rgba(0,255,0,0.15);
+  vertical-align: top;
+}
 
+.bookList {
+  columns: 4;
+  margin-top: 20px;
 }

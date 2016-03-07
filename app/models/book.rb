@@ -21,19 +21,46 @@ class Book < ActiveRecord::Base
     book.id
   end
 
-  # def self.find_users_books(user_id)
-  #   Book.find_by_sql([<<-SQL, {user_id: user_id}])
-  #     SELECT
-  #       bookshelves.shelf_name
-  #     FROM
-  #       books
-  #     JOIN
-  #       book_on_shelves ON books.id=book_on_shelves.book_id
-  #     JOIN
-  #       bookshelves ON bookshelves.id=book_on_shelves.shelf_id
-  #   SQL
-  # end
+  def self.find_users_books(user_id)
+    # @book_on_shelves = User.find(user_id).book_on_shelves.all
+    # ActiveRecord::Base.connection.results_as_hash = true
 
+    @books = ActiveRecord::Base.connection.execute(<<-SQL)
+      SELECT
+        google_books_id, shelf_name
+      FROM
+        books
+      JOIN
+        book_on_shelves ON books.id = book_on_shelves.book_id
+      JOIN
+        bookshelves on book_on_shelves.shelf_id = bookshelves.id
+      WHERE
+        bookshelves.user_id = #{user_id}
+    SQL
+
+    @book_array = []
+    @books.each { |book| @book_array << book}
+    @book_array
+  end
+
+# @books = @book_on_shelves.map do |bos|
+#   [Bookshelf.find(bos.shelf_id).shelf_name,
+#     Book.find(bos.book_id).google_books_id]
+# end
+# debugger
+
+  # Book.find_by_sql([<<-SQL, {user_id: user_id}])
+  #   SELECT
+  #     *
+  #   FROM
+  #     books
+  #   JOIN
+  #     book_on_shelves ON books.id = book_on_shelves.book_id
+  #   JOIN
+  #     bookshelves on book_on_shelves.shelf_id = bookshelves.id
+  #   WHERE
+  #     bookshelves.user_id = user_id
+  # SQL
 
   # def sibling_books
   #   Book.find_by_sql([<<-SQL, {shelf_id: shelf_id, book_id: book_id}])

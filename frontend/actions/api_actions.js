@@ -27,9 +27,16 @@ ApiActions = {
   updateShelvedBooks: function (shelvedBooks) {
     AppDispatcher.dispatch({
       actionType: BookConstants.BOOKSHELF_BOOKS_RECEIVED,
-      bookshelfBooks: bookshelfBooks
-    })
-  }
-}
+      shelvedBooks: shelvedBooks
+    });
+  },
+
+  // receiveShelfBooks: function (shelfBooks) {
+  //   debugger;
+  //   AppDispatcher.dispatch({
+  //     actionType: BookConstants.BOOKS_RECEIVED,
+  //   })
+  // }
+};
 
 module.exports = ApiActions;
