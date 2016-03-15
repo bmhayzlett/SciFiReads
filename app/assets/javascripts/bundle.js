@@ -31911,7 +31911,7 @@
 	  },
 
 	  doSearch: function () {
-	    var query = this.refs.searchInput.getDOMNode().value;
+	    var query = this.refs.searchInput.value;
 	    UserActions.fetchGoogleBooks(query);
 	  },
 
@@ -31927,12 +31927,14 @@
 	      this.props.context.router.push("/bookshelves");
 	    }.bind(this);
 
-	    var button = function (select, btnType) {
-	      if (select === btnType) {
+	    var button = function (btnType) {
+	      if (btnType === "home" && location.hash.startsWith('#/?_k')) {
+	        return "selectedButton";
+	      } else if (btnType === "myBooks" && location.hash.startsWith('#/bookshelves')) {
 	        return "selectedButton";
 	      };
 	      return "unselectedButton";
-	    };
+	    }.bind(this);
 
 	    return React.createElement(
 	      'header',
@@ -31953,12 +31955,12 @@
 	          { className: 'navLinks' },
 	          React.createElement(
 	            'li',
-	            { className: button(this.selected, "home"), onClick: home },
+	            { className: button("home"), onClick: home },
 	            'Home'
 	          ),
 	          React.createElement(
 	            'li',
-	            { className: button(this.selected, "myBooks"), onClick: myBooks },
+	            { className: button("myBooks"), onClick: myBooks },
 	            'My Books'
 	          ),
 	          React.createElement(
