@@ -1,8 +1,7 @@
 # SciFiReads
 
-[Heroku link][heroku] **NB:** This should be a link to your production site
+[Heroku link][scifireads.herokuapp.com]
 
-[heroku]: http://www.herokuapp.com
 
 
 ## Minimum Viable Product

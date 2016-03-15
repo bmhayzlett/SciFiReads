@@ -38,17 +38,24 @@ var Bookshelves = React.createClass({
 
   render: function () {
 
-    var button = function () {
-      debugger;
-    };
+    var button = function (test) {
+      if (test === this.state.shelf) {
+        return "selectedShelf";
+      }
+      return "unselectedShelf";
+    }.bind(this);
 
     return (
       <div>
         <ul className="bookshelfList">
-          <li key="All Books" className={button} onClick={this.handleClick}>All Books</li>
-          <li key="Want to Read" className={button} onClick={this.handleClick}>Want to Read</li>
-          <li key="Currently Reading" className={button} onClick={this.handleClick}>Currently Reading</li>
-          <li key="Read" className={button} onClick={this.handleClick}>Read</li>
+          <li key="All Books" className={button("All")}
+            onClick={this.handleClick}>All Books</li>
+          <li key="Want to Read" className={button("Want to Read")}
+            onClick={this.handleClick}>Want to Read</li>
+          <li key="Currently Reading" className={button("Currently Reading")}
+            onClick={this.handleClick}>Currently Reading</li>
+          <li key="Read" className={button("Read")}
+            onClick={this.handleClick}>Read</li>
         </ul>
         <BookIndex/>
       </div>

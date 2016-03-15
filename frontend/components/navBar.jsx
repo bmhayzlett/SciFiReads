@@ -4,6 +4,10 @@ var UserActions = require('../actions/user_actions');
 
 var navBar = React.createClass({
 
+  componentWillMount: function () {
+    this.selected = "home";
+  },
+
   doSearch: function (){
     var query=this.refs.searchInput.getDOMNode().value;
     UserActions.fetchGoogleBooks(query);
@@ -12,12 +16,21 @@ var navBar = React.createClass({
   render: function () {
     var home = function() {
       UserActions.fetchGoogleBooks("");
+      this.selected = "home"
       this.props.context.router.push("/");
     }.bind(this);
 
     var myBooks = function() {
+      this.selected = "myBooks"
       this.props.context.router.push("/bookshelves");
     }.bind(this);
+
+    var button = function (select,btnType) {
+      if (select === btnType) {
+        return "selectedButton"
+      };
+      return "unselectedButton"
+    }
 
     return (
       <header className="header">
@@ -27,8 +40,8 @@ var navBar = React.createClass({
             value={this.props.query} onChange={this.doSearch}
             onFocus={home} className="searchBar"/>
           <ul className="navLinks">
-            <li className="homeButton" onClick={home}>Home</li>
-              <li className="myBooksButton" onClick={myBooks}>My Books</li>
+            <li className={button(this.selected,"home")} onClick={home}>Home</li>
+            <li className={button(this.selected,"myBooks")} onClick={myBooks}>My Books</li>
             <li className="logout" onClick={UserActions.SignOutSession}>Log Out</li>
           </ul>
         </div>

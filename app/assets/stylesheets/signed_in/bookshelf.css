@@ -12,13 +12,24 @@
   align-content: center;
   text-align: center;
   border-left: 2px solid #0F0;
-  color: #0F0;
   height: inherit;
   width: 98px;
   vertical-align: top;
   font-family: 'Orbitron', sans-serif;
 }
 
-.bookshelfList > li:hover {
+.selectedShelf {
+  color: black;
+  background-color: #0F0;
+  cursor: default;
+}
+
+.unselectedShelf {
+  color: #0F0;
+}
+
+.unselectedShelf:hover {
   cursor: pointer;
+  color: black;
+  background-color: #0A0;
 }

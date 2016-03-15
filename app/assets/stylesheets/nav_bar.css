@@ -57,4 +57,16 @@
 
 .navLinks > li:hover {
   cursor: pointer;
+  color: black;
+  background-color: #0A0;
+}
+
+.selectedButton {
+  color: black;
+  background-color: #0F0;
+  cursor: default;
+}
+
+.unselectedButton {
+  color: #0F0;
 }

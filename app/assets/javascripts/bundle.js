@@ -31906,6 +31906,10 @@
 	  displayName: 'navBar',
 
 
+	  componentWillMount: function () {
+	    this.selected = "home";
+	  },
+
 	  doSearch: function () {
 	    var query = this.refs.searchInput.getDOMNode().value;
 	    UserActions.fetchGoogleBooks(query);
@@ -31914,12 +31918,21 @@
 	  render: function () {
 	    var home = function () {
 	      UserActions.fetchGoogleBooks("");
+	      this.selected = "home";
 	      this.props.context.router.push("/");
 	    }.bind(this);
 
 	    var myBooks = function () {
+	      this.selected = "myBooks";
 	      this.props.context.router.push("/bookshelves");
 	    }.bind(this);
+
+	    var button = function (select, btnType) {
+	      if (select === btnType) {
+	        return "selectedButton";
+	      };
+	      return "unselectedButton";
+	    };
 
 	    return React.createElement(
 	      'header',
@@ -31940,12 +31953,12 @@
 	          { className: 'navLinks' },
 	          React.createElement(
 	            'li',
-	            { className: 'homeButton', onClick: home },
+	            { className: button(this.selected, "home"), onClick: home },
 	            'Home'
 	          ),
 	          React.createElement(
 	            'li',
-	            { className: 'myBooksButton', onClick: myBooks },
+	            { className: button(this.selected, "myBooks"), onClick: myBooks },
 	            'My Books'
 	          ),
 	          React.createElement(
@@ -49188,9 +49201,12 @@
 
 	  render: function () {
 
-	    var button = function () {
-	      debugger;
-	    };
+	    var button = function (test) {
+	      if (test === this.state.shelf) {
+	        return "selectedShelf";
+	      }
+	      return "unselectedShelf";
+	    }.bind(this);
 
 	    return React.createElement(
 	      'div',
@@ -49200,22 +49216,26 @@
 	        { className: 'bookshelfList' },
 	        React.createElement(
 	          'li',
-	          { key: 'All Books', className: button, onClick: this.handleClick },
+	          { key: 'All Books', className: button("All"),
+	            onClick: this.handleClick },
 	          'All Books'
 	        ),
 	        React.createElement(
 	          'li',
-	          { key: 'Want to Read', className: button, onClick: this.handleClick },
+	          { key: 'Want to Read', className: button("Want to Read"),
+	            onClick: this.handleClick },
 	          'Want to Read'
 	        ),
 	        React.createElement(
 	          'li',
-	          { key: 'Currently Reading', className: button, onClick: this.handleClick },
+	          { key: 'Currently Reading', className: button("Currently Reading"),
+	            onClick: this.handleClick },
 	          'Currently Reading'
 	        ),
 	        React.createElement(
 	          'li',
-	          { key: 'Read', className: button, onClick: this.handleClick },
+	          { key: 'Read', className: button("Read"),
+	            onClick: this.handleClick },
 	          'Read'
 	        )
 	      ),
