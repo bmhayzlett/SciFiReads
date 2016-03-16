@@ -24779,13 +24779,21 @@
 
 	  render: function () {
 	    var bookList = this.state.books.map(function (book, index1) {
-	      var authors = book.volumeInfo.authors.map(function (author, index2) {
-	        return React.createElement(
+	      if (typeof book.volumeInfo.authors === "undefined") {
+	        var authors = React.createElement(
 	          'li',
-	          { key: index2 },
-	          author
+	          { key: 'none' },
+	          'No authors listed.'
 	        );
-	      });
+	      } else {
+	        authors = book.volumeInfo.authors.map(function (author, index2) {
+	          return React.createElement(
+	            'li',
+	            { key: index2 },
+	            author
+	          );
+	        });
+	      }
 
 	      var bookUrl = '/books/' + book.id;
 
@@ -24889,6 +24897,9 @@
 	}
 
 	function resetBooks(books) {
+	  if (typeof books === "undefined") {
+	    debugger;
+	  };
 	  _books = {};
 	  books.forEach(function (book) {
 	    _books[book.id] = book;
@@ -31686,7 +31697,9 @@
 	      url: 'https://www.googleapis.com/books/v1/volumes?' + 'q=subject:"Fiction+Science+Fiction"' + searchItems + '&fields=items(id,volumeInfo(title,authors,description,imageLinks))' + '&key=' + window.keys + '&maxResults=40',
 	      type: 'GET',
 	      success: function (books) {
-	        ApiActions.receiveAll(books);
+	        if (typeof books.items !== "undefined") {
+	          ApiActions.receiveAll(books);
+	        }
 	      }
 	    });
 	  },

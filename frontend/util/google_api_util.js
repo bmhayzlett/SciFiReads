@@ -10,7 +10,9 @@ GoogleApiUtil = {
         '&key=' + window.keys + '&maxResults=40',
       type: 'GET',
       success: function (books){
-        ApiActions.receiveAll(books);
+        if (typeof books.items !== "undefined") {
+          ApiActions.receiveAll(books);
+        }
       }
     });
   },
