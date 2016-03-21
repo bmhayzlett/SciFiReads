@@ -31722,13 +31722,14 @@
 	        url: 'https://www.googleapis.com/books/v1/volumes/' + book + '?key=' + window.keys + '&fields=id,volumeInfo(title,authors,description,imageLinks)' + '&maxResults=40',
 	        type: 'GET',
 	        success: function (book) {
+	          debugger;
 	          requestedBooks.push(book);
 	          if (requestedBooks.length === bookArray.length) {
 	            ApiActions.receiveAll({ items: requestedBooks });
 	          }
 	        },
-	        error: function () {
-	          console.log("error fetching");
+	        error: function (payload) {
+	          debugger;
 	        }
 	      });
 	    });
@@ -31798,6 +31799,7 @@
 
 	UserActions = {
 	  fetchGoogleBooks: function (searchTerms) {
+	    debugger;
 	    GoogleApiUtil.fetchBooks(searchTerms);
 	  },
 
@@ -31827,6 +31829,7 @@
 
 	  fetchMultiGoogleBooks: function (bookArray) {
 	    if (bookArray.length > 0) {
+	      debugger;
 	      GoogleApiUtil.fetchMultipleBooks(bookArray);
 	    } else {
 	      AppDispatcher.dispatch({
@@ -31928,6 +31931,10 @@
 	    UserActions.fetchGoogleBooks(query);
 	  },
 
+	  clearSearch: function () {
+	    this.refs.searchInput.value = "";
+	  },
+
 	  render: function () {
 	    var home = function () {
 	      UserActions.fetchGoogleBooks("");
@@ -31962,7 +31969,7 @@
 	        ),
 	        React.createElement('input', { type: 'text', ref: 'searchInput', placeholder: 'Search All Books',
 	          value: this.props.query, onChange: this.doSearch,
-	          onFocus: home, className: 'searchBar' }),
+	          onFocus: home, onBlur: this.clearSearch, className: 'searchBar' }),
 	        React.createElement(
 	          'ul',
 	          { className: 'navLinks' },

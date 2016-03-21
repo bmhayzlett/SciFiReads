@@ -41,13 +41,14 @@ GoogleApiUtil = {
           '&maxResults=40',
         type: 'GET',
         success: function (book){
+          debugger;
           requestedBooks.push(book)
           if (requestedBooks.length === bookArray.length) {
             ApiActions.receiveAll({items: requestedBooks});
           }
         },
-        error: function () {
-          console.log("error fetching")
+        error: function (payload) {
+          debugger;
         }
       });
     })

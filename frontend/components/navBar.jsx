@@ -13,12 +13,17 @@ var navBar = React.createClass({
     UserActions.fetchGoogleBooks(query);
   },
 
+  clearSearch: function () {
+    this.refs.searchInput.value = ""
+  },
+
   render: function () {
     var home = function() {
       UserActions.fetchGoogleBooks("");
       this.selected = "home"
       this.props.context.router.push("/");
     }.bind(this);
+
 
     var myBooks = function() {
       this.selected = "myBooks"
@@ -40,7 +45,7 @@ var navBar = React.createClass({
           <h2 id="SciFiReads" className="SciFiReads" onClick={home}>SciFiReads</h2>
           <input type="text" ref="searchInput" placeholder="Search All Books"
             value={this.props.query} onChange={this.doSearch}
-            onFocus={home} className="searchBar"/>
+            onFocus={home} onBlur={this.clearSearch} className="searchBar"/>
           <ul className="navLinks">
             <li className={button("home")} onClick={home}>Home</li>
             <li className={button("myBooks")} onClick={myBooks}>My Books</li>
