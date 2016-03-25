@@ -33,7 +33,8 @@
 
 .searchBar {
   margin-left: 200px;
-  background-color: #282828
+  background-color: #282828;
+  padding: 2px;
 }
 
 .navLinks {

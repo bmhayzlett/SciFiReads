@@ -1,12 +1,13 @@
 .bookIndexItem {
   display: inline-flex;
   height: 300px;
-  width: 239px;
+  width: 229px;
   align-items: center;
   justify-content: space-around;
   flex-direction: column;
   margin: 5px;
-  background-color: rgba(0,255,0,0.15);
+  padding: 3px;
+  border: 2px solid #0F0;
   vertical-align: top;
 }
 

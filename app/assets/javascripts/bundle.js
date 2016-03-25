@@ -31694,7 +31694,12 @@
 
 	  fetchBooks: function (searchItems) {
 	    $.ajax({
-	      url: 'https://www.googleapis.com/books/v1/volumes?' + 'q=subject:"Fiction+Science+Fiction"' + searchItems + '&fields=items(id,volumeInfo(title,authors,description,imageLinks))' + '&key=' + window.keys + '&maxResults=40',
+	      url: 'https://www.googleapis.com/books/v1/volumes?' + 'q=subject:"Fiction+Science+Fiction"' + searchItems + '&fields=items(id,volumeInfo(title,subtitle,authors,description,imageLinks,' + 'publisher,publishedDate,averageRating,ratingsCount,industryIdentifiers))' +
+
+	      // '&fields=id,volumeInfo(title,subtitle,authors,description,imageLinks,' +
+	      // 'publisher,publishedDate,averageRating,ratingsCount,industryIdentifiers)'
+
+	      '&key=' + window.keys + '&maxResults=40',
 	      type: 'GET',
 	      success: function (books) {
 	        if (typeof books.items !== "undefined") {
@@ -31706,7 +31711,7 @@
 
 	  fetchSingleBook: function (gBookId, callback) {
 	    $.ajax({
-	      url: 'https://www.googleapis.com/books/v1/volumes/' + gBookId + '?key=' + window.keys + '&fields=id,volumeInfo(title,authors,description,imageLinks)',
+	      url: 'https://www.googleapis.com/books/v1/volumes/' + gBookId + '?key=' + window.keys + '&fields=id,volumeInfo(title,subtitle,authors,description,imageLinks,' + 'publisher,publishedDate,averageRating,ratingsCount,industryIdentifiers)',
 	      type: 'GET',
 	      success: function (book) {
 	        callback(gBookId);
@@ -31722,14 +31727,10 @@
 	        url: 'https://www.googleapis.com/books/v1/volumes/' + book + '?key=' + window.keys + '&fields=id,volumeInfo(title,authors,description,imageLinks)' + '&maxResults=40',
 	        type: 'GET',
 	        success: function (book) {
-	          debugger;
 	          requestedBooks.push(book);
 	          if (requestedBooks.length === bookArray.length) {
 	            ApiActions.receiveAll({ items: requestedBooks });
 	          }
-	        },
-	        error: function (payload) {
-	          debugger;
 	        }
 	      });
 	    });
@@ -31799,7 +31800,6 @@
 
 	UserActions = {
 	  fetchGoogleBooks: function (searchTerms) {
-	    debugger;
 	    GoogleApiUtil.fetchBooks(searchTerms);
 	  },
 
@@ -31829,7 +31829,6 @@
 
 	  fetchMultiGoogleBooks: function (bookArray) {
 	    if (bookArray.length > 0) {
-	      debugger;
 	      GoogleApiUtil.fetchMultipleBooks(bookArray);
 	    } else {
 	      AppDispatcher.dispatch({
@@ -32075,8 +32074,10 @@
 	        bookshelf: "none"
 	      };
 	    } else {
-	      return { book: { id: "", volumeInfo: { title: "", authors: [],
-	            description: "", imageLinks: undefined } }, bookshelf: "none" };
+	      return { book: { id: "", volumeInfo: { title: "", subtitle: "", authors: [],
+	            description: "", imageLinks: undefined, publisher: "", publishedDate: "",
+	            averageRating: null, ratingsCount: null, industryIdentifiers: [] } },
+	        bookshelf: "none" };
 	    }
 	  },
 
@@ -32084,6 +32085,9 @@
 	    UserActions.fetchSingleGoogleBook(this.props.params.id, UserActions.fetchBookshelf);
 	    this.bookListener = BookStore.addListener(this._onChange);
 	  },
+
+	  // The bug appears to be that on refresh, the bookstore receives books
+	  // not necessarily including the book, so find by book id returns undefined
 
 	  _onChange: function () {
 	    this.setState({ book: BookStore.find(this.props.params.id),
@@ -32094,17 +32098,32 @@
 	    this.bookListener.remove();
 	  },
 
-	  render: function () {
+	  subTitle: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'TEST'
+	    );
+	  },
 
+	  render: function () {
 	    // get book cover image
 	    if (this.state.book.volumeInfo.imageLinks !== undefined) {
 	      if (this.state.book.volumeInfo.imageLinks.thumbnail !== undefined) {
 	        bookImage = React.createElement('img', { src: this.state.book.volumeInfo.imageLinks.thumbnail });
 	      } else {
-	        bookImage = "No book image!";
+	        bookImage = React.createElement(
+	          'div',
+	          { className: 'noImage' },
+	          '"No book image!"'
+	        );
 	      };
 	    } else {
-	      bookImage = "No book image!";
+	      bookImage = React.createElement(
+	        'div',
+	        { className: 'noImage' },
+	        '"No book image!"'
+	      );
 	    };
 
 	    // get authors
@@ -32116,31 +32135,141 @@
 	      );
 	    });
 
+	    if (typeof this.state.book.volumeInfo.industryIdentifiers[0] !== "undefined") {
+	      var isbn10 = React.createElement(
+	        'div',
+	        { className: 'isbn10' },
+	        this.state.book.volumeInfo.industryIdentifiers[0].identifier
+	      );
+	    };
+
+	    if (typeof this.state.book.volumeInfo.industryIdentifiers[1] !== "undefined") {
+	      var isbn13 = React.createElement(
+	        'div',
+	        { className: 'isbn13' },
+	        this.state.book.volumeInfo.industryIdentifiers[1].identifier
+	      );
+	    };
+
+	    debugger;
+
 	    return React.createElement(
 	      'div',
 	      { className: 'bookDisplay' },
 	      React.createElement(
 	        'div',
-	        { className: 'bookImage' },
-	        bookImage
+	        { className: 'bookShowLeft' },
+	        React.createElement(
+	          'div',
+	          { className: 'bookImage' },
+	          bookImage
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'bookAverageRatingLabel' },
+	          'Average Google Books Rating'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'bookAverageRating' },
+	          this.state.book.volumeInfo.averageRating
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'bookRatingsCountLabel' },
+	          'Number of Ratings'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'bookRatingsCount' },
+	          this.state.book.volumeInfo.ratingsCount
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'bookshelfButton' },
+	          React.createElement(BookshelfButton, { bookshelf: this.state.bookshelf, bookId: this.state.book.id })
+	        )
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'bookTitle' },
-	        this.state.book.volumeInfo.title
-	      ),
-	      React.createElement(
-	        'ul',
-	        { className: 'bookAuthors' },
-	        'Author(s): ',
-	        authors
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'bookDescription' },
-	        this.state.book.volumeInfo.description.replace(/(<([^>]+)>)/ig, "")
-	      ),
-	      React.createElement(BookshelfButton, { bookshelf: this.state.bookshelf, bookId: this.state.book.id })
+	        { className: 'bookShowRight' },
+	        React.createElement(
+	          'div',
+	          { className: 'showRightTop' },
+	          React.createElement(
+	            'div',
+	            { className: 'bookTitleLabel' },
+	            'Title',
+	            React.createElement(
+	              'div',
+	              { className: 'showbookTitle' },
+	              this.state.book.volumeInfo.title
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'bookSubTitleLabel' },
+	            'Subtitle',
+	            React.createElement(
+	              'div',
+	              { className: 'bookSubTitle' },
+	              this.state.book.volumeInfo.subtitle
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'bookAuthorsLabel' },
+	            'Author',
+	            React.createElement(
+	              'ul',
+	              { className: 'bookAuthors' },
+	              authors
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'bookPublisherLabel' },
+	            'Publisher',
+	            React.createElement(
+	              'div',
+	              { className: 'bookPublisher' },
+	              this.state.book.volumeInfo.publisher
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'bookPublishedDateLabel' },
+	            'Published Date',
+	            React.createElement(
+	              'div',
+	              { className: 'bookPublishedDate' },
+	              this.state.book.volumeInfo.publishedDate
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'isbn10Label' },
+	            'ISBN-10',
+	            isbn10
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'isbn13Label' },
+	            'ISBN-13',
+	            isbn13
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'bookDescriptionLabel' },
+	          'Description'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'bookDescription' },
+	          this.state.book.volumeInfo.description.replace(/(<([^>]+)>)/ig, "")
+	        )
+	      )
 	    );
 	  }
 

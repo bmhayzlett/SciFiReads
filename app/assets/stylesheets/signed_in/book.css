@@ -1,19 +1,134 @@
 .bookDisplay {
+  height: 570px;
+  width: 900px;
+  border: 2px solid #0F0;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.bookShowLeft {
+  height: inherit;
+  width: 223px;
+  display: inline-block;
+  border-right: 2px solid #0F0;
+}
+
+.bookShowRight {
+  display: inline-block;
+  width: 675px;
+  height: inherit;
+  position: absolute;
+  font-size: 18px;
 
 }
 
 .bookImage {
+  display: inline-flex;
+  height: 300px;
+  width: inherit;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid #0F0;
 
 }
 
-.bookTitle {
+.showRightTop {
+  width:inherit;
+  height:300px;
+  border-bottom: 2px solid #0F0;
+}
 
+.bookTitleLabel {
+  font-size: 36px;
+  display: block;
+}
+
+.showBookTitle {
+  font-size: 36px;
+  display: inline;;
+
+}
+
+.bookSubTitleLabel {
+  display: block;
+}
+
+.bookSubTitle {
+  display: inline;
+}
+
+.bookAuthorsLabel {
+  display: block;
 }
 
 .bookAuthors {
+  display: inline;
+}
+
+.bookDescriptionLabel {
 
 }
 
 .bookDescription {
 
+}
+
+.bookPublisherLabel {
+  display: block;
+}
+
+.bookPublisher {
+  display: inline;
+}
+
+.bookPublishedDateLabel {
+  display: block;
+}
+
+.bookPublishedDate {
+  display: inline;
+}
+
+.bookAverageRatingLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  font-size: 18px;
+  border-bottom: 2px solid #0F0;
+}
+
+.bookRatingsCountLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  font-size: 18px;
+  border-bottom: 2px solid #0F0;
+}
+
+.bookAverageRating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  font-size: 18px;
+  border-bottom: 2px solid #0F0;
+}
+
+.bookRatingsCount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  font-size: 18px;
+  border-bottom: 2px solid #0F0;
+}
+
+.bookshelfButton {
+  height: 100px;
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

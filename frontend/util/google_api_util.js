@@ -6,7 +6,13 @@ GoogleApiUtil = {
     $.ajax ({
       url: 'https://www.googleapis.com/books/v1/volumes?' +
         'q=subject:"Fiction+Science+Fiction"' + searchItems +
-        '&fields=items(id,volumeInfo(title,authors,description,imageLinks))' +
+        '&fields=items(id,volumeInfo(title,subtitle,authors,description,imageLinks,' +
+        'publisher,publishedDate,averageRating,ratingsCount,industryIdentifiers))' +
+
+        // '&fields=id,volumeInfo(title,subtitle,authors,description,imageLinks,' +
+        // 'publisher,publishedDate,averageRating,ratingsCount,industryIdentifiers)'
+
+
         '&key=' + window.keys + '&maxResults=40',
       type: 'GET',
       success: function (books){
@@ -21,7 +27,8 @@ GoogleApiUtil = {
     $.ajax ({
       url: 'https://www.googleapis.com/books/v1/volumes/' + gBookId +
         '?key=' + window.keys +
-        '&fields=id,volumeInfo(title,authors,description,imageLinks)',
+        '&fields=id,volumeInfo(title,subtitle,authors,description,imageLinks,' +
+        'publisher,publishedDate,averageRating,ratingsCount,industryIdentifiers)',
       type: 'GET',
       success: function (book){
         callback(gBookId);
@@ -41,14 +48,10 @@ GoogleApiUtil = {
           '&maxResults=40',
         type: 'GET',
         success: function (book){
-          debugger;
           requestedBooks.push(book)
           if (requestedBooks.length === bookArray.length) {
             ApiActions.receiveAll({items: requestedBooks});
           }
-        },
-        error: function (payload) {
-          debugger;
         }
       });
     })

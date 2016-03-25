@@ -5,7 +5,6 @@ var ApiUtil = require('../util/api_util');
 
 UserActions = {
   fetchGoogleBooks: function(searchTerms){
-    debugger;
     GoogleApiUtil.fetchBooks(searchTerms);
   },
 
@@ -35,7 +34,6 @@ UserActions = {
 
   fetchMultiGoogleBooks: function (bookArray) {
     if (bookArray.length > 0) {
-      debugger;
       GoogleApiUtil.fetchMultipleBooks(bookArray)
     } else {
       AppDispatcher.dispatch({
