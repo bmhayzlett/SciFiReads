@@ -39,55 +39,75 @@
 }
 
 .bookTitleLabel {
-  font-size: 36px;
-  display: block;
+  font-size: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  padding-left: 5px;
+  color: #0F0;
+
 }
 
 .showBookTitle {
-  font-size: 36px;
-  display: inline;;
-
+  font-size: 48px;
+  display: inline-block;
+  border-left: 2px solid #0F0;
+  width: 540px;
+  padding-left: 5px;
+  padding-right: 5px;
+  height: inherit;
+  line-height: 80px;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: white;
 }
 
-.bookSubTitleLabel {
-  display: block;
+.bookShowDetailLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid #0F0;
+  height: 35px;
+  padding-left: 5px;
+  color: #0F0;
 }
 
-.bookSubTitle {
+.bookShowDetail {
+  display: inline;
+  border-left: 2px solid #0F0;
+  width: 545px;
+  padding-left: 5px;
+  height: inherit;
+  display: inherit;
+  align-items: center;
+  color: white;
+}
+
+
+.bookAuthorLI {
   display: inline;
 }
 
-.bookAuthorsLabel {
-  display: block;
-}
-
-.bookAuthors {
-  display: inline;
-}
-
-.bookDescriptionLabel {
-
-}
 
 .bookDescription {
-
+  padding: 5px;
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  max-width: 675px;
+  height: 248px;
+  margin: 0 auto;
+  line-height: 1;
+  -webkit-line-clamp: 14;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.bookPublisherLabel {
-  display: block;
-}
 
-.bookPublisher {
-  display: inline;
-}
 
-.bookPublishedDateLabel {
-  display: block;
-}
-
-.bookPublishedDate {
-  display: inline;
-}
 
 .bookAverageRatingLabel {
   display: flex;
@@ -95,7 +115,7 @@
   align-items: center;
   height: 40px;
   font-size: 18px;
-  border-bottom: 2px solid #0F0;
+  color: #0F0;
 }
 
 .bookRatingsCountLabel {
@@ -104,7 +124,7 @@
   align-items: center;
   height: 40px;
   font-size: 18px;
-  border-bottom: 2px solid #0F0;
+  color: #0F0;
 }
 
 .bookAverageRating {

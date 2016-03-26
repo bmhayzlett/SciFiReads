@@ -11,6 +11,25 @@
   vertical-align: top;
 }
 
+.noImage {
+  height: 200px;
+  width: 125px;
+  background-color: #050;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bookTitle {
+  text-align: center;
+}
+
+.indexAuthors {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .bookList {
   columns: 4;
   margin-top: 20px;

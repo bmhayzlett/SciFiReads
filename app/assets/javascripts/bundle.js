@@ -24800,7 +24800,11 @@
 	      if (book.volumeInfo.imageLinks !== undefined && book.volumeInfo.imageLinks.thumbnail !== undefined) {
 	        var thumbNail = React.createElement('img', { src: book.volumeInfo.imageLinks.thumbnail });
 	      } else {
-	        thumbNail = "No book image!";
+	        thumbNail = React.createElement(
+	          'div',
+	          { className: 'noImage' },
+	          '"No book image!"'
+	        );
 	      };
 
 	      return React.createElement(
@@ -24821,7 +24825,7 @@
 	          ),
 	          React.createElement(
 	            'ul',
-	            null,
+	            { className: 'indexAuthors' },
 	            'Author(s): ',
 	            authors
 	          )
@@ -32130,7 +32134,7 @@
 	    var authors = this.state.book.volumeInfo.authors.map(function (author, index) {
 	      return React.createElement(
 	        'li',
-	        { key: index },
+	        { className: 'bookAuthorLI', key: index },
 	        author
 	      );
 	    });
@@ -32138,7 +32142,7 @@
 	    if (typeof this.state.book.volumeInfo.industryIdentifiers[0] !== "undefined") {
 	      var isbn10 = React.createElement(
 	        'div',
-	        { className: 'isbn10' },
+	        { className: 'bookShowDetail' },
 	        this.state.book.volumeInfo.industryIdentifiers[0].identifier
 	      );
 	    };
@@ -32146,12 +32150,10 @@
 	    if (typeof this.state.book.volumeInfo.industryIdentifiers[1] !== "undefined") {
 	      var isbn13 = React.createElement(
 	        'div',
-	        { className: 'isbn13' },
+	        { className: 'bookShowDetail' },
 	        this.state.book.volumeInfo.industryIdentifiers[1].identifier
 	      );
 	    };
-
-	    debugger;
 
 	    return React.createElement(
 	      'div',
@@ -32202,67 +32204,62 @@
 	            'Title',
 	            React.createElement(
 	              'div',
-	              { className: 'showbookTitle' },
+	              { className: 'showBookTitle' },
 	              this.state.book.volumeInfo.title
 	            )
 	          ),
 	          React.createElement(
 	            'div',
-	            { className: 'bookSubTitleLabel' },
+	            { className: 'bookShowDetailLabel' },
 	            'Subtitle',
 	            React.createElement(
 	              'div',
-	              { className: 'bookSubTitle' },
+	              { className: 'bookShowDetail' },
 	              this.state.book.volumeInfo.subtitle
 	            )
 	          ),
 	          React.createElement(
 	            'div',
-	            { className: 'bookAuthorsLabel' },
+	            { className: 'bookShowDetailLabel' },
 	            'Author',
 	            React.createElement(
 	              'ul',
-	              { className: 'bookAuthors' },
+	              { className: 'bookShowDetail' },
 	              authors
 	            )
 	          ),
 	          React.createElement(
 	            'div',
-	            { className: 'bookPublisherLabel' },
+	            { className: 'bookShowDetailLabel' },
 	            'Publisher',
 	            React.createElement(
 	              'div',
-	              { className: 'bookPublisher' },
+	              { className: 'bookShowDetail' },
 	              this.state.book.volumeInfo.publisher
 	            )
 	          ),
 	          React.createElement(
 	            'div',
-	            { className: 'bookPublishedDateLabel' },
+	            { className: 'bookShowDetailLabel' },
 	            'Published Date',
 	            React.createElement(
 	              'div',
-	              { className: 'bookPublishedDate' },
+	              { className: 'bookShowDetail' },
 	              this.state.book.volumeInfo.publishedDate
 	            )
 	          ),
 	          React.createElement(
 	            'div',
-	            { className: 'isbn10Label' },
+	            { className: 'bookShowDetailLabel' },
 	            'ISBN-10',
 	            isbn10
 	          ),
 	          React.createElement(
 	            'div',
-	            { className: 'isbn13Label' },
+	            { className: 'bookShowDetailLabel' },
 	            'ISBN-13',
 	            isbn13
 	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'bookDescriptionLabel' },
-	          'Description'
 	        ),
 	        React.createElement(
 	          'div',

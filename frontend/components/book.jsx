@@ -55,18 +55,16 @@ var Book = React.createClass({
 
     // get authors
     var authors = this.state.book.volumeInfo.authors.map(function (author, index) {
-      return <li key={index}>{author}</li>
+      return <li className = "bookAuthorLI"key={index}>{author}</li>
     });
 
     if (typeof this.state.book.volumeInfo.industryIdentifiers[0] !== "undefined") {
-      var isbn10 = <div className="isbn10">{this.state.book.volumeInfo.industryIdentifiers[0].identifier}</div>
+      var isbn10 = <div className="bookShowDetail">{this.state.book.volumeInfo.industryIdentifiers[0].identifier}</div>
     };
 
     if (typeof this.state.book.volumeInfo.industryIdentifiers[1] !== "undefined") {
-      var isbn13 = <div className="isbn13">{this.state.book.volumeInfo.industryIdentifiers[1].identifier}</div>
+      var isbn13 = <div className="bookShowDetail">{this.state.book.volumeInfo.industryIdentifiers[1].identifier}</div>
     };
-
-    debugger;
 
     return (
       <div className="bookDisplay">
@@ -85,28 +83,28 @@ var Book = React.createClass({
         <div className="bookShowRight">
           <div className="showRightTop">
             <div className="bookTitleLabel">Title
-              <div className="showbookTitle">{this.state.book.volumeInfo.title}</div>
+              <div className="showBookTitle">{this.state.book.volumeInfo.title}</div>
             </div>
-            <div className="bookSubTitleLabel">Subtitle
-              <div className="bookSubTitle">{this.state.book.volumeInfo.subtitle}</div>
+            <div className="bookShowDetailLabel">Subtitle
+              <div className="bookShowDetail">{this.state.book.volumeInfo.subtitle}</div>
             </div>
-            <div className="bookAuthorsLabel">Author
-              <ul className="bookAuthors">{authors}</ul>
+            <div className="bookShowDetailLabel">Author
+              <ul className="bookShowDetail">{authors}</ul>
             </div>
-            <div className="bookPublisherLabel">Publisher
-              <div className="bookPublisher">{this.state.book.volumeInfo.publisher}</div>
+            <div className="bookShowDetailLabel">Publisher
+              <div className="bookShowDetail">{this.state.book.volumeInfo.publisher}</div>
             </div>
-            <div className="bookPublishedDateLabel">Published Date
-              <div className="bookPublishedDate">{this.state.book.volumeInfo.publishedDate}</div>
+            <div className="bookShowDetailLabel">Published Date
+              <div className="bookShowDetail">{this.state.book.volumeInfo.publishedDate}</div>
             </div>
-            <div className="isbn10Label">ISBN-10
+            <div className="bookShowDetailLabel">ISBN-10
               {isbn10}
             </div>
-            <div className="isbn13Label">ISBN-13
+            <div className="bookShowDetailLabel">ISBN-13
               {isbn13}
             </div>
           </div>
-          <div className="bookDescriptionLabel">Description</div>
+
           <div className="bookDescription">{this.state.book.volumeInfo.description.replace(/(<([^>]+)>)/ig,"")}</div>
         </div>
 

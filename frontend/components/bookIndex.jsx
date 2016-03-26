@@ -41,7 +41,7 @@ var bookIndex = React.createClass({
           book.volumeInfo.imageLinks.thumbnail !== undefined) {
           var thumbNail = <img src={book.volumeInfo.imageLinks.thumbnail}/>;
         } else {
-          thumbNail = "No book image!"
+          thumbNail = <div className="noImage">"No book image!"</div>
         };
 
       return  (
@@ -49,7 +49,7 @@ var bookIndex = React.createClass({
           <li className="bookIndexItem">
               <div className="indexThumbnail">{thumbNail}</div>
               <p className="bookTitle">{book.volumeInfo.title}</p>
-              <ul>Author(s): {authors}</ul>
+              <ul className="indexAuthors">Author(s): {authors}</ul>
           </li>
         </Link>
       )
