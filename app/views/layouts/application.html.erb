@@ -5,7 +5,7 @@
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
-  <link rel="shortcut icon" href="../../../public/favicon.png"/>
+  <%= favicon_link_tag 'favicon.png' %>
   <link href='https://fonts.googleapis.com/css?family=Orbitron:400,500' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Share+Tech' rel='stylesheet' type='text/css'>
   <script>  window.keys="<%= ENV["g"] %>"  </script>
