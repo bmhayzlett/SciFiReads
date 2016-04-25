@@ -29,8 +29,10 @@ var Book = React.createClass({
 // not necessarily including the book, so find by book id returns undefined
 
   _onChange: function () {
-    this.setState({book: BookStore.find(this.props.params.id),
-      bookshelf: BookStore.shelf()});
+    if (BookStore.find(this.props.params.id)) {
+      this.setState({book: BookStore.find(this.props.params.id),
+        bookshelf: BookStore.shelf()});
+    }
   },
 
   componentWillUnmount: function () {
@@ -43,15 +45,14 @@ var Book = React.createClass({
 
   render: function () {
     // get book cover image
-    if (this.state.book.volumeInfo.imageLinks !== undefined) {
-      if (this.state.book.volumeInfo.imageLinks.thumbnail !== undefined) {
-        bookImage = <img src={this.state.book.volumeInfo.imageLinks.thumbnail}/>;
-      } else {
-        bookImage = <div className="noImage">"No book image!"</div>;
-      };
-    } else {
-      bookImage = <div className="noImage">"No book image!"</div>;
-    };
+    if ((this.state.book) &&
+        (this.state.book.volumeInfo) &&
+        (this.state.book.volumeInfo.imageLinks) &&
+        (this.state.book.volumeInfo.imageLinks.thumbnail)) {
+            bookImage = <img src={this.state.book.volumeInfo.imageLinks.thumbnail}/>;
+          } else {
+            bookImage = <div className="noImage">"No book image!"</div>;
+          };
 
     // get authors
     var authors = this.state.book.volumeInfo.authors.map(function (author, index) {

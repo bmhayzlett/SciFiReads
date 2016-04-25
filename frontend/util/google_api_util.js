@@ -44,7 +44,8 @@ GoogleApiUtil = {
         url: 'https://www.googleapis.com/books/v1/volumes/' +
           book +
           '?key=' + window.keys +
-          '&fields=id,volumeInfo(title,authors,description,imageLinks)' +
+          '&fields=id,volumeInfo(title,subtitle,authors,description,imageLinks,' +
+          'publisher,publishedDate,averageRating,ratingsCount,industryIdentifiers)' +
           '&maxResults=40',
         type: 'GET',
         success: function (book){

@@ -31728,7 +31728,7 @@
 	    requestedBooks = [];
 	    bookArray.forEach(function (book) {
 	      $.ajax({
-	        url: 'https://www.googleapis.com/books/v1/volumes/' + book + '?key=' + window.keys + '&fields=id,volumeInfo(title,authors,description,imageLinks)' + '&maxResults=40',
+	        url: 'https://www.googleapis.com/books/v1/volumes/' + book + '?key=' + window.keys + '&fields=id,volumeInfo(title,subtitle,authors,description,imageLinks,' + 'publisher,publishedDate,averageRating,ratingsCount,industryIdentifiers)' + '&maxResults=40',
 	        type: 'GET',
 	        success: function (book) {
 	          requestedBooks.push(book);
@@ -32094,8 +32094,10 @@
 	  // not necessarily including the book, so find by book id returns undefined
 
 	  _onChange: function () {
-	    this.setState({ book: BookStore.find(this.props.params.id),
-	      bookshelf: BookStore.shelf() });
+	    if (BookStore.find(this.props.params.id)) {
+	      this.setState({ book: BookStore.find(this.props.params.id),
+	        bookshelf: BookStore.shelf() });
+	    }
 	  },
 
 	  componentWillUnmount: function () {
@@ -32112,16 +32114,8 @@
 
 	  render: function () {
 	    // get book cover image
-	    if (this.state.book.volumeInfo.imageLinks !== undefined) {
-	      if (this.state.book.volumeInfo.imageLinks.thumbnail !== undefined) {
-	        bookImage = React.createElement('img', { src: this.state.book.volumeInfo.imageLinks.thumbnail });
-	      } else {
-	        bookImage = React.createElement(
-	          'div',
-	          { className: 'noImage' },
-	          '"No book image!"'
-	        );
-	      };
+	    if (this.state.book && this.state.book.volumeInfo && this.state.book.volumeInfo.imageLinks && this.state.book.volumeInfo.imageLinks.thumbnail) {
+	      bookImage = React.createElement('img', { src: this.state.book.volumeInfo.imageLinks.thumbnail });
 	    } else {
 	      bookImage = React.createElement(
 	        'div',
