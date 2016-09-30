@@ -1,6 +1,6 @@
 # SciFiReads
 
-[Heroku link](scifireads.herokuapp.com)
+[Heroku link](scifireads.space)
 
 
 
