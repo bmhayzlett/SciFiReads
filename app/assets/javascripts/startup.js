@@ -1,22 +1,25 @@
 $(function(){
-    $("h2#type1").typed({
-        strings: ["SciFiReads"],
-        typeSpeed: 10,
-        callback: function () {
-          setTimeout( function() {$("h2#type2").addClass("blinkNow")}, 3000);
-          $("h2#type2").typed({
-              strings: ["^3000Follow the white rabbit"],
-              typeSpeed: 25,
-              callback: function () {setTimeout(Matrix,100)}
-          });
-        }
-    });
+  setTimeout(matrix,1100);
+  $("h2#type1").typed({
+    strings: ["SciFiReads"],
+    typeSpeed: 10,
+    callback: blinkCursor
+  });
 });
 
-var Matrix = function () {
+var blinkCursor = function () {
+  setTimeout( function() {$("h2#type2").addClass("blinkNow")}, 3000);
+  $("h2#type2").typed({
+    strings: ["^3000Follow the white rabbit"],
+    typeSpeed: 25,
+  });
+}
+
+var matrix = function () {
   var q=document.getElementById("q");
   var ctx=q.getContext("2d");
   var yPositions = Array(300).join(0).split('');
+
   var draw=function(){
     ctx.fillStyle='rgba(0,0,0,.15)';
     ctx.fillRect(0,0,1000,1000);
