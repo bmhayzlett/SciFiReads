@@ -15,13 +15,13 @@ Rails and React.js. SciFiReads allows users to:
 - [ ] Add books to read, reading, and want-to-read bookshelves
 
 ## Design Docs
-* [View Wireframes][views]
+
 * [React Components][components]
 * [Flux Stores][stores]
 * [API endpoints][api-endpoints]
 * [DB schema][schema]
 
-[views]: ./docs/views.md
+
 [components]: ./docs/components.md
 [stores]: ./docs/stores.md
 [api-endpoints]: ./docs/api-endpoints.md
