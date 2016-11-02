@@ -9,10 +9,10 @@
 SciFiReads is a web application inspired by Goodreads built using Ruby on
 Rails and React.js. SciFiReads allows users to:
 
-- [ ] Create an account
-- [ ] Log in / Log out
-- [ ] Search library of books
-- [ ] Add books to read, reading, and want-to-read bookshelves
+- [X] Create an account
+- [X] Log in / Log out
+- [X] Search library of books
+- [X] Add books to read, reading, and want-to-read bookshelves
 
 ## Design Docs
 
