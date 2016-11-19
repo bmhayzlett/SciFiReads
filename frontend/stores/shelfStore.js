@@ -44,7 +44,6 @@ function filterShelves(shelfName) {
 
 function resetShelves(shelvedBooks) {
   return _shelvedBooks = shelvedBooks;
-  debugger;
 };
 
 module.exports = ShelfStore;

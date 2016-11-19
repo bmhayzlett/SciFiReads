@@ -48,9 +48,6 @@ function resetShelf(shelf) {
 }
 
 function resetBooks(books) {
-  if (typeof books === "undefined") {
-    debugger;
-  };
   _books = {}
   books.forEach(function(book){
     _books[book.id] = book;
